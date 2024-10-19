@@ -1,0 +1,104 @@
+spring:
+   ai:
+      openai:
+         api-key: ''
+         base-url: https://api.openai.com/v1/chat/completions
+         chat:
+            options:
+               model: gpt-4o
+   application:
+      name: Profile
+   cache:
+      redis:
+         enable-statistics: true
+   cloud:
+      config:
+         discovery:
+            enabled: false
+   mail:
+      host: smtp.gmail.com
+      password: test
+      port: 587
+      properties:
+         mail:
+            smtp:
+               auth: true
+               starttls:
+                  enable: false
+                  required: true
+      test-connection: false
+      username: test
+   main:
+      lazy-initialization: true
+   mvc:
+      problemdetails:
+         enabled: true
+   profiles:
+      active: dev
+   security:
+      user:
+         name: user
+         password: pass
+   servlet:
+      multipart:
+         max-file-size: 50MB
+         max-request-size: 50MB
+   thymeleaf:
+      cache: false
+      enabled: 'true '
+      prefix: classpath:/templates/
+      suffix: .html
+SPRING_AI_OPENAI_API_KEY: ''
+cache:
+   redis:
+      enable: false
+   simple:
+      enable: true
+chatgpt:
+   api-key: ''
+eureka:
+   client:
+      fetch-registry: false
+      register-with-eureka: false
+      serviceUrl:
+         defaultZone: http://localhost:8761/eureka
+   instance:
+      appname: profile
+      prefer-ip-address: false
+java:
+   home: 'Java is installed in the folder: ${JAVA_HOME}'
+logging:
+   level:
+      com:
+         netflix:
+            discovery: OFF
+            eureka: OFF
+      org:
+         springframework:
+            security:
+               web:
+                  FilterChainProxy: DEBUG
+mail:
+   from: mailer@mail.com
+   hostname: host@mail.com
+   port: 9000
+management:
+   endpoint:
+      health:
+         show-details: always
+   endpoints:
+      web:
+         exposure:
+            include: '*'
+security:
+   basic:
+      authorize-mode: NONE
+      enabled: true
+server:
+   error:
+      path: /error2
+   port: 9091
+   servlet:
+      contextPath: /social/profile-service
+springdoc:
+   show-actuator: false
