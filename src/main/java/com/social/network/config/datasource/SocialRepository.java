@@ -20,14 +20,14 @@ public abstract class SocialRepository
 
 	@Autowired
 	@Qualifier("postgresJdbcTemplate")
-	protected JdbcTemplate postgresJdbcTemplate;
+	protected JdbcTemplate jdbcTemplate;
 
 	public <T> CompletableFuture<List<T>> execute(String description, String query, Class<T> t) throws Exception
 	{
 		try
 		{
 			log.info("Query ::: {}", query);
-			return timed(description, () -> postgresJdbcTemplate.query(query, new BeanPropertyRowMapper<>(t)));
+			return timed(description, () -> jdbcTemplate.query(query, new BeanPropertyRowMapper<>(t)));
 		}
 		catch (Exception e)
 		{
@@ -40,7 +40,7 @@ public abstract class SocialRepository
 		try
 		{
 			log.info("Query ::: {}", query);
-			return timed(description, () -> postgresJdbcTemplate.query(query, new BeanPropertyRowMapper<>(t), args.toArray()));
+			return timed(description, () -> jdbcTemplate.query(query, new BeanPropertyRowMapper<>(t), args.toArray()));
 		}
 		catch (Exception e)
 		{

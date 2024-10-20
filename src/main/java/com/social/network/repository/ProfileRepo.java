@@ -25,7 +25,7 @@ public class ProfileRepo extends SocialRepository
 
 	public long totalUsers()
 	{
-		long count = postgresJdbcTemplate.queryForObject("select count(*) from social_user", Long.class);
+		long count = jdbcTemplate.queryForObject("select count(*) from social_user", Long.class);
 
 		return count;
 	}
@@ -54,7 +54,7 @@ public class ProfileRepo extends SocialRepository
 			sql.append(" AND password = ?");
 		}
 
-		List<Profile> existingUser = postgresJdbcTemplate.query(sql.toString(), new RowMapper<Profile>()
+		List<Profile> existingUser = jdbcTemplate.query(sql.toString(), new RowMapper<Profile>()
 		{
 
 			@Override

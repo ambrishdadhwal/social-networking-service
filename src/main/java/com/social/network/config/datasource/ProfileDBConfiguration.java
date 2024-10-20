@@ -2,6 +2,7 @@ package com.social.network.config.datasource;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,8 @@ import org.springframework.core.env.Environment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration(proxyBeanMethods = false)
 @Slf4j
@@ -62,5 +65,13 @@ public class ProfileDBConfiguration
 		dataSourceBuilder.username(dataSource.getUsername());
 		dataSourceBuilder.password(dataSource.getPassword());
 		return dataSourceBuilder.build();
+	}
+
+	@ConditionalOnMissingBean(name = "postgresJdbcTemplate")
+	@Bean("postgresJdbcTemplate")
+	@Profile("h2")
+	JdbcTemplate jdbcTemplate(DataSource dataH2Source)
+	{
+		return new JdbcTemplate(dataH2Source);
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
@@ -22,6 +23,7 @@ import lombok.AllArgsConstructor;
 @Configuration
 @EnableJdbcRepositories(jdbcOperationsRef = "mariaSQLJdbcOperations", basePackages = "com.social.network.repository")
 @AllArgsConstructor
+@Profile("!h2")
 public class MariaSQLConfig extends AbstractJdbcConfiguration
 {
 

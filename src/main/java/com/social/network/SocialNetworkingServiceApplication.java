@@ -25,11 +25,11 @@ import java.util.stream.IntStream;
 
 @ConfigurationPropertiesScan
 @EnableRetry
-@EnableJpaRepositories("com.social")
+@EnableJpaRepositories("com.social.network")
 @EntityScan(basePackages =
-        {"com.social"})
+        {"com.social.network"})
 @ComponentScan(basePackages =
-        {"com.social"})
+        {"com.social.network"})
 @Slf4j
 @RequiredArgsConstructor
 @SpringBootApplication

@@ -1,13 +1,12 @@
+server:
+   error:
+      path: /error2
+   port: 9091
+   servlet:
+      contextPath: /social-networking-service
 spring:
-   ai:
-      openai:
-         api-key: ''
-         base-url: https://api.openai.com/v1/chat/completions
-         chat:
-            options:
-               model: gpt-4o
    application:
-      name: Profile
+      name: social-networking-service
    cache:
       redis:
          enable-statistics: true
@@ -34,7 +33,7 @@ spring:
       problemdetails:
          enabled: true
    profiles:
-      active: dev
+      active: ${SPRING_PROFILE}
    security:
       user:
          name: user
@@ -48,7 +47,6 @@ spring:
       enabled: 'true '
       prefix: classpath:/templates/
       suffix: .html
-SPRING_AI_OPENAI_API_KEY: ''
 cache:
    redis:
       enable: false
@@ -78,10 +76,6 @@ logging:
             security:
                web:
                   FilterChainProxy: DEBUG
-mail:
-   from: mailer@mail.com
-   hostname: host@mail.com
-   port: 9000
 management:
    endpoint:
       health:
@@ -94,11 +88,5 @@ security:
    basic:
       authorize-mode: NONE
       enabled: true
-server:
-   error:
-      path: /error2
-   port: 9091
-   servlet:
-      contextPath: /social/profile-service
 springdoc:
    show-actuator: false
