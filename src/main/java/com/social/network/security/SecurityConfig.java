@@ -62,6 +62,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/login/").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login/token").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/index/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/mvc/**").permitAll()
