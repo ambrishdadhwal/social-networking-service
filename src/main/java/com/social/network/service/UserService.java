@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service("profileService")
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements IUserService
 {
 
@@ -61,8 +65,10 @@ public class UserService implements IUserService
 	
 	@Override
 	@SocialMethodVisit
+	@Cacheable(cacheNames = {"personCache"}, key = "'persons_all_'+#pageNumber +'_'+#pageSize")
 	public List<Profile> allUsersPaging(Integer pageNumber, Integer pageSize)
 	{
+		log.info("Getting all the users.......");
 		Sort sortByName = Sort.by("firstName","lastName");
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, sortByName);
 		return userRepo.findAll(pageable).getContent().stream().map(ProfileMapper::convert).collect(Collectors.toList());
@@ -133,8 +139,8 @@ public class UserService implements IUserService
 	@Override
 	public Optional<Profile> getUserbyEmail(String email)
 	{
-
-		return Optional.empty();
+		Optional<ProfileE> existingUser = userRepo.findByEmail(email);
+		return Optional.of(ProfileMapper.convert(existingUser.get()));
 	}
 
 	@Override

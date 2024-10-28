@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.social.network.domain.Gender;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -50,6 +52,9 @@ public class ProfileDTO  extends RepresentationModel<ProfileDTO>
 	@Size(min = 1, message = "size should be greater than 1")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
+
+	@NotNull
+	private Gender gender;
 
 	@CountryValidator
 	private CountryDTO country;

@@ -54,7 +54,6 @@ public class UserController
 		CommonResponse<List<ProfileDTO>> dto = new CommonResponse<>();
 		dto.setData(response);
 		dto.setStatus(HttpStatus.OK);
-		System.out.println("----->>>>>>" + requestContextHolder.getContext().getEmail());
 		return dto;
 	}
 

@@ -1,12 +1,16 @@
 server:
    error:
       path: /error2
+      whitelabel:
+         enabled: false
    port: 9091
    servlet:
       contextPath: /social-networking-service
 spring:
    application:
       name: social-networking-service
+   banner:
+      location: banner.txt
    cache:
       redis:
          enable-statistics: true
@@ -47,6 +51,15 @@ spring:
       enabled: 'true '
       prefix: classpath:/templates/
       suffix: .html
+
+   defer-datasource-initialization: true
+   liquibase:
+      change-log: classpath:db/changelog/master.yaml
+      enabled: true
+   sql:
+      init:
+         mode: always
+         schema-locations: classpath:/sql/schema.sql
 
 cache:
    redis:
@@ -103,3 +116,10 @@ security:
       enabled: true
 springdoc:
    show-actuator: false
+
+
+# ---DEV
+
+
+
+# ---H2

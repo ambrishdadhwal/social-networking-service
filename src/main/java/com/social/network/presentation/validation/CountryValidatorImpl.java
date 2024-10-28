@@ -1,5 +1,6 @@
 package com.social.network.presentation.validation;
 
+import com.social.network.exception.BusinessValidationException;
 import com.social.network.presentation.CountryDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -15,7 +16,11 @@ public class CountryValidatorImpl implements ConstraintValidator<CountryValidato
 	@Override
 	public boolean isValid(CountryDTO countryDTO, ConstraintValidatorContext context)
 	{
-		return valueList.contains(countryDTO);
+		if(valueList.contains(countryDTO)){
+			return true;
+		}
+		throw new BusinessValidationException(countryDTO, "Choose a valid country",countryDTO );
+
 	}
 
 	@Override

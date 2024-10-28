@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
 		log.info("Inside CustomUserDetailsService.loadUserByUsername .....");
-		Optional<Profile> currentUser = profileService.allUsers().stream().filter(n -> n.getEmail().equals(username)).findAny();
+		Optional<Profile> currentUser = profileService.getUserbyEmail(username);
 
 		if (currentUser.isPresent())
 		{
@@ -40,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService
 	public UserDetails loadUserByUsername(String username, HttpServletRequest request) throws UsernameNotFoundException
 	{
 		log.info("Inside CustomUserDetailsService.loadUserByUsername .....");
-		Optional<Profile> currentUser = profileService.allUsers().stream().filter(n -> n.getEmail().equals(username)).findAny();
+		Optional<Profile> currentUser = profileService.getUserbyEmail(username);
 
 		if (currentUser.isPresent())
 		{

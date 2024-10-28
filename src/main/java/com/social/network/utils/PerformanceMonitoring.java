@@ -19,9 +19,9 @@ public class PerformanceMonitoring
 		long startTime = System.currentTimeMillis();
 		Object result = joinPoint.proceed();
 		long endTime = System.currentTimeMillis();
-		/*log.info("Execution time of class : {} , method : {} and time taken is : {} ",
+		log.info("Execution time of class : {} , method : {} and time taken is : {} ",
 			joinPoint.getSignature().getDeclaringType().getClass().getName(), 
-			joinPoint.getSignature().getName(), (endTime - startTime) + " ms");*/
+			joinPoint.getSignature().getName(), (endTime - startTime) + " ms");
 		return result;
 	}
 }

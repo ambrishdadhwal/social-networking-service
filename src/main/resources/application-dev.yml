@@ -6,7 +6,7 @@ spring:
       driverClassName: org.postgresql.Driver
    jpa:
       hibernate:
-         ddl-auto: create-drop
+         ddl-auto: none
       show-sql: true
       properties:
          hibernate:
@@ -14,30 +14,12 @@ spring:
             format_sql: true
             ddl-auto: create-drop
          show_sql: true
-   defer-datasource-initialization: true
-   sql:
-      init:
-         mode: always
-   h2:
-      console:
-         path: /h2-console
-######Thymleaf#####
+   ######Thymleaf#####
    thymeleaf:
       prefix: classpath:/templates/
       suffix: .html
 #####Redis######
 
-management:
-   endpoints:
-      web:
-         exposure:
-            include: '*'
-   health:
-      show-details: always
-      redis:
-         enabled: false
-      mail:
-         enabled: false
 
 ######Databases#####
 social:

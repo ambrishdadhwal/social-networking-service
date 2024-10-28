@@ -25,6 +25,7 @@ public class Profile
 	private String userName;
 	private String password;
 	private Country country;
+	private Gender gender;
 	private LocalDate dob;
 	private Boolean isActive;
 	private Set<String> roles;

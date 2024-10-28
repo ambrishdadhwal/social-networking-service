@@ -15,14 +15,3 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
-management:
-  endpoint:
-    health:
-      show-details: always
-  health:
-    mail:
-      enabled: false
-  endpoints:
-    web:
-      exposure:
-        include: '*'

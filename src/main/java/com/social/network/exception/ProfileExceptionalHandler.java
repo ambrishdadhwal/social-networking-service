@@ -3,8 +3,11 @@ package com.social.network.exception;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -24,6 +27,9 @@ import jakarta.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class ProfileExceptionalHandler extends ResponseEntityExceptionHandler
 {
+
+	private static final String ENUM_MSG = "values accepted for Enum class: ";
+
 
 	// global exceptions
 	@ExceptionHandler(Exception.class)
@@ -69,8 +75,31 @@ public class ProfileExceptionalHandler extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status,
 		WebRequest request)
 	{
+		if (ex.getCause() instanceof InvalidFormatException) {
+			boolean match = ex.getCause().getMessage().contains(ENUM_MSG);
+			if (match) {
+				int index = ex.getCause().getMessage().indexOf(ENUM_MSG);
+				ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+						.message(request.getDescription(false))
+						.details(ex.getCause().getMessage().substring(index))
+						.build();
+				return new ResponseEntity<>(error, status);
+			}
+		}
 		ErrorDetails error = ErrorDetails.builder().timestamp(new Date()).message(request.getDescription(false))
 			.details(ex.getLocalizedMessage()).build();
 		return new ResponseEntity<>(error, status);
+	}
+
+	@ExceptionHandler(BusinessValidationException.class)
+	public ResponseEntity<ErrorDetails> handleInvalidEngine(RuntimeException e) {
+		Throwable cause = e.getCause();
+		return ResponseEntity
+				.badRequest()
+				.body(new ErrorDetails(
+						new Date(),
+						HttpStatus.BAD_REQUEST.getReasonPhrase(),
+						cause.getMessage()
+				));
 	}
 }

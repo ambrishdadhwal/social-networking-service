@@ -1,0 +1,111 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1730110438457-6
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%uc_0a778204b21e3677e25023f31%'"
+      changes:
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_0a778204b21e3677e25023f31
+            tableName: social_user
+  - changeSet:
+      id: 1730110438457-7
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%FK_SOCIAL_USER_FRIEND_ON_FRIEND%'"
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: friend_id
+            baseTableName: social_user_friend
+            constraintName: FK_SOCIAL_USER_FRIEND_ON_FRIEND
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1730110438457-8
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%FK_SOCIAL_USER_FRIEND_ON_USER%'"
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: social_user_friend
+            constraintName: FK_SOCIAL_USER_FRIEND_ON_USER
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1730110438457-9
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%FK_SOCIAL_USER_IMAGE_ON_SOCIAL_POST%'"
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: social_post_id
+            baseTableName: social_user_image
+            constraintName: FK_SOCIAL_USER_IMAGE_ON_SOCIAL_POST
+            referencedColumnNames: id
+            referencedTableName: social_user_post
+  - changeSet:
+      id: 1730110438457-10
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%FK_SOCIAL_USER_IMAGE_ON_SOCIAL_USER%'"
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: social_user_id
+            baseTableName: social_user_image
+            constraintName: FK_SOCIAL_USER_IMAGE_ON_SOCIAL_USER
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1730110438457-11
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%FK_SOCIAL_USER_POST_ON_USER_A%'"
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_a_id
+            baseTableName: social_user_post
+            constraintName: FK_SOCIAL_USER_POST_ON_USER_A
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1730110438457-12
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: "select count(*) from information_schema.table_constraints where CONSTRAINT_NAME ilike '%FK_SOCIAL_USER_ROLE_ON_USER%'"
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: social_user_role
+            constraintName: FK_SOCIAL_USER_ROLE_ON_USER
+            referencedColumnNames: id
+            referencedTableName: social_user

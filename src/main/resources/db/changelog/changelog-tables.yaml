@@ -1,0 +1,197 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1730110438457-1
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: social_user
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_social_user
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: profile_image
+                  type: VARCHAR(255)
+              - column:
+                  defaultValueBoolean: false
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: country
+                  type: VARCHAR(255)
+              - column:
+                  name: gender
+                  type: VARCHAR(255)
+              - column:
+                  name: dob
+                  type: DATE
+              - column:
+                  name: create_date_time
+                  type: DATETIME
+              - column:
+                  name: modified_date_time
+                  type: DATETIME
+            tableName: social_user
+  - changeSet:
+      id: 1730110438457-2
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: social_user_friend
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_social_user_friend
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: friend_id
+                  type: BIGINT
+              - column:
+                  name: is_friend
+                  type: BOOLEAN
+              - column:
+                  name: request_accepted
+                  type: BOOLEAN
+              - column:
+                  name: timestamp
+                  type: DATETIME
+            tableName: social_user_friend
+  - changeSet:
+      id: 1730110438457-3
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: social_user_image
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_social_user_image
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: social_user_id
+                  type: BIGINT
+              - column:
+                  name: social_post_id
+                  type: BIGINT
+              - column:
+                  name: image_name
+                  type: VARCHAR(255)
+              - column:
+                  name: image_description
+                  type: VARCHAR(255)
+              - column:
+                  name: image_type
+                  type: VARCHAR(255)
+              - column:
+                  name: image
+                  type: bytea
+              - column:
+                  name: create_date_time
+                  type: DATETIME
+              - column:
+                  name: modify_date_time
+                  type: DATETIME
+            tableName: social_user_image
+  - changeSet:
+      id: 1730110438457-4
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: social_user_post
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_social_user_post
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_a_id
+                  type: BIGINT
+              - column:
+                  name: post_data
+                  type: VARCHAR(255)
+              - column:
+                  name: created_time
+                  type: DATETIME
+              - column:
+                  name: modified_time
+                  type: DATETIME
+            tableName: social_user_post
+  - changeSet:
+      id: 1730110438457-5
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: social_user_role
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_social_user_role
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: role
+                  type: VARCHAR(255)
+            tableName: social_user_role

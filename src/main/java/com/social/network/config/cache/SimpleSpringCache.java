@@ -31,7 +31,7 @@ public class SimpleSpringCache
 		log.debug("...####Simple cache Bean is created... Because Redis CacheManager Bean was missing####....");
 		SimpleCacheManager cacheManager = new SimpleCacheManager();
 		List<Cache> caches = new ArrayList<>();
-		caches.add(new ConcurrentMapCache("data"));
+		caches.add(new ConcurrentMapCache("personCache"));
 		cacheManager.setCaches(caches);
 		return cacheManager;
 	}

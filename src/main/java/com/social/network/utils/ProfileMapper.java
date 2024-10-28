@@ -119,6 +119,7 @@ public class ProfileMapper
 			.email(from.getEmail())
 			.password(from.getPassword())
 			.country(from.getCountry())
+			.gender(from.getGender())
 			.dob(from.getDob())
 			.profileImage(from.getProfileImage())
 			.profileImages(images)
@@ -156,7 +157,7 @@ public class ProfileMapper
 			.email(from.getEmail())
 			.password(from.getPassword())
 			.country(from.getCountry())
-			.gender(Gender.NOT_INTERESTED_TO_MENTION)
+			.gender(from.getGender())
 			.dob(from.getDob())
 			.userRoles(roles)
 			.profileImage(from.getProfileImage())
@@ -192,6 +193,7 @@ public class ProfileMapper
 			.email(from.getEmail())
 			.password(from.getPassword())
 			.country(Country.getCountry(from.getCountry().getCountry()))
+			.gender(from.getGender())
 			.dob(from.getDob())
 			.roles(roles)
 			.profileImage(from.getProfileImage())
@@ -245,6 +247,7 @@ public class ProfileMapper
 		profileDTO.setCreateDateTime(from.getCreateDateTime());
 		profileDTO.setModifyDateTime(from.getModifiedDateTime());
 		profileDTO.setIsActive(from.getIsActive());
+		profileDTO.setGender(from.getGender());
 		
 		return profileDTO;
 	}

@@ -38,7 +38,7 @@ public class SecurityConfig {
 
     final CustomUserDetailsService customUserDetailsService;
 
-    final ProfileAuthentiationProvider authProvider;
+    //final ProfileAuthentiationProvider authProvider;
 
     final JwtRequestFilter jwtFilter;
 
