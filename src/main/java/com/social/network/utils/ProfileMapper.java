@@ -214,7 +214,7 @@ public class ProfileMapper
 
 		if (from.getProfileImages() != null)
 		{
-			images = from.getProfileImages().stream().map(ProfileMapper::convertDTO).collect(Collectors.toSet());
+			images = from.getProfileImages().stream().filter(n->n.getImageType().equals(ImageType.PROFILE_PIC)).map(ProfileMapper::convertDTO).collect(Collectors.toSet());
 		}
 
 		/*return ProfileDTO.builder()

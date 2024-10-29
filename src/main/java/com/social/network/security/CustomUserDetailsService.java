@@ -37,14 +37,14 @@ public class CustomUserDetailsService implements UserDetailsService
 		throw new UsernameNotFoundException("User not found with username :-" + username);
 	}
 
-	public UserDetails loadUserByUsername(String username, HttpServletRequest request) throws UsernameNotFoundException
+	public UserPrincipal loadUserByUsername(String username, HttpServletRequest request) throws UsernameNotFoundException
 	{
 		log.info("Inside CustomUserDetailsService.loadUserByUsername .....");
 		Optional<Profile> currentUser = profileService.getUserbyEmail(username);
 
 		if (currentUser.isPresent())
 		{
-			request.setAttribute("CurrentUser", currentUser.get());
+			//request.setAttribute("CurrentUser", currentUser.get());
 			Profile user = currentUser.get();
 
 			return UserPrincipal.create(user);

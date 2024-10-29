@@ -130,9 +130,10 @@ public class UserPostMapper
 
 		return UserPostDTO.builder()
 			.id(from.getId())
-			.user(ProfileMapper.convertDTO(profile))
+				.userId(profile.getId())
+			//.user(ProfileMapper.convertDTO(profile))
 			.post(from.getPost())
-			.images(from.getImages().stream().map(UserPostMapper::convertImageDTO).collect(Collectors.toSet()))
+			.images(from.getImages().stream().filter(n->n.getImageType().equals(ImageType.POST_PIC)).map(UserPostMapper::convertImageDTO).collect(Collectors.toSet()))
 			.createdTime(from.getCreatedTime())
 			.modifiedTime(from.getModifiedTime())
 			.build();

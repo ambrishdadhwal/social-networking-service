@@ -1,10 +1,12 @@
 package com.social.network.restcontroller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.social.network.security.RequestContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,19 +43,23 @@ public class UserPostController
 
 	final IPostService postService;
 
+	private final RequestContextHolder requestContextHolder;
+
 	public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
 	@GetMapping(value = "/{userId}/post")
 	public ResponseEntity<List<UserPostDTO>> getAllPostsByUser(@PathVariable Long userId)
 	{
-		List<UserPost> userPosts = postService.getAllUserPost(null);
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		List<UserPost> userPosts = postService.getAllUserPost(userId);
+		List<UserPostDTO> userPostDTOs = userPosts.stream().map(UserPostMapper::convert).toList();
+		return new ResponseEntity<>(userPostDTOs, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{userId}/post/{postId}")
 	public ResponseEntity<UserPostDTO> getPostById(@PathVariable Long userId, @PathVariable Long postId)
 	{
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		UserPost userPost = postService.getUserPostByUserIdAndPostId(userId, postId);
+		return new ResponseEntity<>(UserPostMapper.convert(userPost), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/{userId}/post", produces = "application/json")
@@ -61,8 +67,8 @@ public class UserPostController
 		@RequestParam(name = "post") String post,
 		@RequestParam(name = "file", required = false) MultipartFile[] files, HttpServletRequest httpRequest) throws ProfileException, IOException
 	{
-		Profile profile = (Profile)httpRequest.getAttribute("CurrentUser");
-		if(!userId.equals(profile.getId()))
+		Long loggedInUserId = requestContextHolder.getContext().getUserId();
+		if(!userId.equals(loggedInUserId))
 		{
 			throw new ProfileException("You can only create post with Logged In User");
 		}

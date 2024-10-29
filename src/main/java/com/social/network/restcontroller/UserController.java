@@ -63,13 +63,17 @@ public class UserController
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Optional<Profile> profile = userService.getUserbyUserNameAndId(authentication.getName(), id);
+		CommonResponse<ProfileDTO> dto = new CommonResponse<>();
 		if (profile.isPresent())
 		{
-			CommonResponse<ProfileDTO> dto = new CommonResponse<>();
 			dto.setData(ProfileMapper.convertDTO(profile.get()));
 			return new ResponseEntity<>(dto, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		else
+		{
+			dto.setError("Please Login with correct userId");
+			return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@GetMapping(value = "/count")

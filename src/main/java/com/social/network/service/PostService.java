@@ -2,6 +2,7 @@ package com.social.network.service;
 
 		import java.util.List;
 		import java.util.Optional;
+		import java.util.stream.Collectors;
 
 		import org.springframework.stereotype.Service;
 
@@ -50,15 +51,15 @@ public class PostService implements IPostService
 	}
 
 	@Override
-	public List<UserPost> getAllUserPost(UserPost profilePost)
+	public List<UserPost> getAllUserPost(Long userId)
 	{
-		return null;
+		return postRepo.getPostsByProfile(userId).stream().map(UserPostMapper::convert).toList();
 	}
 
 	@Override
-	public UserPost getUserPostById(UserPost profilePost)
+	public UserPost getUserPostByUserIdAndPostId(Long userId, Long postId)
 	{
-		return null;
+		return UserPostMapper.convert(postRepo.getPostsByUserIdAndPostId(userId, postId));
 	}
 
 	@Override

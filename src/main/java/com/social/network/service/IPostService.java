@@ -10,9 +10,9 @@ public interface IPostService
 
 	public Optional<UserPost> addUserPost(UserPost profilePost);
 
-	public List<UserPost> getAllUserPost(UserPost profilePost);
+	public List<UserPost> getAllUserPost(Long userId);
 
-	public UserPost getUserPostById(UserPost profilePost);
+	public UserPost getUserPostByUserIdAndPostId(Long userId, Long postId);
 
 	public Optional<UserPost> deleteUserPost(UserPost profilePost);
 }
