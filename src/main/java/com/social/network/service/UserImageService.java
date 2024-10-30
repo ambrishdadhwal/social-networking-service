@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
+import com.social.network.entity.ProfileImageE;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,19 +34,17 @@ public class UserImageService implements IUserImageService
 	public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
 	@Override
-	public Optional<Profile> uploadUserImage(ProfileImage image, MultipartFile file) throws IOException
+	public Optional<Profile> uploadUserProfileImage(Long userId, MultipartFile file) throws IOException
 	{
 		Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
-		Optional<Profile> profile = userService.getUserbyId(image.getUserId());
+		Optional<Profile> profile = userService.getUserbyId(userId);
 
 		if (profile.isPresent())
 		{
 			Profile existingProfile = profile.get();
 			try
 			{
-				StringBuilder fileNames = new StringBuilder();
 				Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
-				fileNames.append(file.getOriginalFilename());
 				Files.write(fileNameAndPath, file.getBytes());
 
 				ProfileImage profileImage = ProfileImage.builder()
@@ -66,5 +66,17 @@ public class UserImageService implements IUserImageService
 			}
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public List<ProfileImage> getUserProfileImages(Long userId) {
+		List<ProfileImageE> images = imageRepo.findByUserId(userId);
+		return images.stream().map(ProfileMapper::convert).toList();
+	}
+
+	@Override
+	public ProfileImage getUserProfileImage(Long imageId, Long userId) {
+		ProfileImageE image = imageRepo.findByIdAndUserId(imageId, userId);
+		return ProfileMapper.convert(image);
 	}
 }

@@ -23,6 +23,7 @@ public class ProfileImage
 	private String imageDescription;
 	private byte[] image;
 	private ImageType imageType;
+	private Boolean isActive;
 	private LocalDateTime createDateTime;
 	private LocalDateTime modifyDateTime;
 }

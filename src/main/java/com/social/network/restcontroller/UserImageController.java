@@ -1,8 +1,11 @@
 package com.social.network.restcontroller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
+import com.social.network.presentation.ProfileImageDTO;
+import com.social.network.security.RequestContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,38 +35,38 @@ public class UserImageController
 
 	private final IUserImageService imageService;
 
+	private final RequestContextHolder requestContextHolder;
+
 	@GetMapping(value = "{userId}/image/{imageId}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> getImage(@PathVariable(required = true) String imageId, @PathVariable(required = true) String userId)
+	public ResponseEntity<ProfileImageDTO> getImage(@PathVariable(required = true) Long imageId, @PathVariable(required = true) Long userId)
 	{
-		return new ResponseEntity<>(HttpStatus.OK);
+		ProfileImage image = imageService.getUserProfileImage(imageId, userId);
+		return new ResponseEntity<>(ProfileMapper.convertDTO(image), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "{userId}/image/", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> getAllImages(@PathVariable(required = true) String userId)
+	public ResponseEntity<List<ProfileImageDTO>> getAllImages(@PathVariable(required = true) Long userId)
 	{
-		return new ResponseEntity<>(HttpStatus.OK);
+		List<ProfileImage> images = imageService.getUserProfileImages(userId);
+
+		return new ResponseEntity<>( images.stream().map(ProfileMapper::convertDTO).toList(), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/{userId}/image", produces = "application/json")
 	public ResponseEntity<ProfileDTO> uploadImage(@PathVariable("userId") Long userId, @RequestParam("file") MultipartFile file,
 		@RequestParam("imageName") String imageName, HttpServletRequest httpRequest) throws ProfileException, IOException
 	{
-		Profile hhtpProfile = (Profile)httpRequest.getAttribute("CurrentUser");
-		if(!userId.equals(hhtpProfile.getId()))
-		{
-			throw new ProfileException("You can only create post with Logged In User");
-		}
-		
-		ProfileImage image = ProfileImage.builder().userId(userId).build();
 
-		Optional<Profile> profile = imageService.uploadUserImage(image, file);
-
-		if (profile.isPresent())
+		if(!userId.equals(requestContextHolder.getContext().getUserId()))
 		{
-			return new ResponseEntity<>(ProfileMapper.convertDTO(profile.get()), HttpStatus.OK);
+			throw new ProfileException("You can only upload image with Logged In User");
 		}
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+
+		Optional<Profile> profile = imageService.uploadUserProfileImage(userId, file);
+
+        return profile.map(value -> new ResponseEntity<>(ProfileMapper.convertDTO(value), HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
 
 	@DeleteMapping(value = "{userId}/image/{imageId}")
 	public ResponseEntity<?> deleteImage(@PathVariable(required = true) String imageId, @PathVariable(required = true) String userId)

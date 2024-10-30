@@ -37,6 +37,9 @@ public class ProfileImageE
 	private String imageName;
 
 	@Column
+	private Boolean isActive;
+
+	@Column
 	private String imageDescription;
 
 	@Column

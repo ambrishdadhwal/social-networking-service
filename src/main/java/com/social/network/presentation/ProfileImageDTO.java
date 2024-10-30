@@ -36,6 +36,8 @@ public class ProfileImageDTO
 
 	private ImageTypeDTO imageType;
 
+	private Boolean isActive;
+
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "MM/dd/yyyy")

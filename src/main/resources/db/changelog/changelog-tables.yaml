@@ -195,3 +195,10 @@ databaseChangeLog:
                   name: role
                   type: VARCHAR(255)
             tableName: social_user_role
+
+  - changeSet:
+      id: 1234456
+      author: ambrish
+      changes:
+        - sql:
+            ALTER TABLE social_user_image ADD COLUMN IF NOT EXISTS is_active boolean;

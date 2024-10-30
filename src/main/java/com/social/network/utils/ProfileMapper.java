@@ -39,6 +39,7 @@ public class ProfileMapper
 			.imageDescription(n.getImageDescription())
 			.imageType(n.getImageType())
 			.image(n.getImage())
+			.isActive(n.getIsActive())
 			.createDateTime(n.getCreateDateTime())
 			.modifyDateTime(n.getModifyDateTime())
 			.build();
@@ -56,6 +57,7 @@ public class ProfileMapper
 			.imageName(n.getImageName())
 			.imageDescription(n.getImageDescription())
 			.image(n.getImage())
+			.isActive(n.getIsActive())
 			.imageType(ImageType.valueOf(n.getImageType().toString()))
 			.createDateTime(n.getCreateDate())
 			.modifyDateTime(n.getModifyDate())
@@ -75,6 +77,7 @@ public class ProfileMapper
 			.imageDescription(n.getImageDescription())
 			.imageType(ImageTypeDTO.valueOf(n.getImageType().toString()))
 			.image(n.getImage())
+			.isActive(n.getIsActive())
 			.createDate(n.getCreateDateTime())
 			.modifyDate(n.getModifyDateTime())
 			.build();
@@ -93,6 +96,7 @@ public class ProfileMapper
 			.imageDescription(n.getImageDescription())
 			.imageType(n.getImageType())
 			.image(n.getImage())
+			.isActive(n.getIsActive())
 			.createDateTime(n.getCreateDateTime())
 			.modifyDateTime(n.getModifyDateTime())
 			.build();
