@@ -6,6 +6,7 @@ import com.social.network.entity.ProfileE;
 import com.social.network.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -33,6 +34,7 @@ import java.util.stream.IntStream;
 @Slf4j
 @RequiredArgsConstructor
 @SpringBootApplication
+@EnableRabbit
 public class SocialNetworkingServiceApplication implements CommandLineRunner {
 
     final UserRepo userRepo;

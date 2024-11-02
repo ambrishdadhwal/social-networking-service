@@ -2,10 +2,14 @@ package com.social.network.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.social.network.notification.EmailDetailDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +37,17 @@ public class UserService implements IUserService
 
 	private final ProfileRepo profileRepo;
 
+	private final RabbitTemplate rabbitTemplate;
+
+	@Value("${rabbitmq.exchange.email.name}")
+	private String emailExchange;
+
+	@Value("${rabbitmq.binding.email.name}")
+	private String emailRoutingKey;
+
+	@Value("${spring.rabbitmq.enabled:false}")
+	private String isRabbitMQEnabled;
+
 	@SocialMethodVisit
 	public Optional<Profile> saveUser(Profile user) throws Exception
 	{
@@ -48,7 +63,9 @@ public class UserService implements IUserService
 		newUser.setIsActive(true);
 		try
 		{
+			Integer token = Integer.valueOf((int) (Math.random() * 10000));
 			ProfileE savedUser = userRepo.save(newUser);
+			sendEmail(user, token, "Email Verification");
 			return Optional.of(ProfileMapper.convert(savedUser));
 		}
 		catch (Exception e)
@@ -160,6 +177,21 @@ public class UserService implements IUserService
 	public List<Profile> getUsersSearchbyName(String name)
 	{
 		return userRepo.findByFirstNameContaining(name).stream().map(ProfileMapper::convert).collect(Collectors.toList());
+	}
+
+	private void sendEmail(Profile user, Integer token, String subject) {
+		if(isRabbitMQEnabled.equals("true")){
+			Map<String, Object> mailData = Map.of("token", token, "fullName", user.getFirstName().concat(user.getLastName()));
+			rabbitTemplate.convertAndSend(emailExchange, emailRoutingKey, EmailDetailDTO.builder()
+					.to(user.getEmail())
+					.subject(subject)
+					.dynamicValue(mailData)
+					.templateName("verification")
+					.build());
+		}
+		else{
+			log.info("RabbitMQ push currently disabled.");
+		}
 	}
 
 }

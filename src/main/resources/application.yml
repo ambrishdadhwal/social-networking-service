@@ -11,6 +11,8 @@ spring:
       name: social-networking-service
    banner:
       location: banner.txt
+   config:
+      import: classpath:creds.yaml
    cache:
       redis:
          enable-statistics: true
@@ -20,7 +22,7 @@ spring:
             enabled: false
    mail:
       host: smtp.gmail.com
-      password: test
+      password: ${EMAIL_TOKEN}
       port: 587
       properties:
          mail:
@@ -30,7 +32,7 @@ spring:
                   enable: false
                   required: true
       test-connection: false
-      username: test
+      username: ${EMAIL_USERNAME}
    main:
       lazy-initialization: true
    mvc:
@@ -60,6 +62,13 @@ spring:
       init:
          mode: always
          schema-locations: classpath:/sql/schema.sql
+
+   rabbitmq:
+      enabled: ${RABBITMQ_ENABLED}
+      host: localhost
+      port: 5672
+      username: ${RABBITMQ_USERNAME_DEV}
+      password: ${RABBITMQ_PASSWORD_DEV}
 
 cache:
    redis:
@@ -110,6 +119,8 @@ management:
          enabled: false
       mail:
          enabled: false
+      rabbit:
+         enabled: false
 security:
    basic:
       authorize-mode: NONE
@@ -117,6 +128,19 @@ security:
 springdoc:
    show-actuator: false
 
+
+
+
+rabbitmq:
+   queue:
+      email:
+         name: email_queue
+   exchange:
+      email:
+         name: email_exchange
+   binding:
+      email:
+         name: email_routing_key
 
 # ---DEV
 
