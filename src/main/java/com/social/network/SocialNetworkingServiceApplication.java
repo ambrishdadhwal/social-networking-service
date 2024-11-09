@@ -48,7 +48,7 @@ public class SocialNetworkingServiceApplication implements CommandLineRunner {
     {
         log.info("Admin User is Created..");
 
-        List<ProfileE> persons = IntStream.iterate(1, n -> n + 1).limit(100)
+        List<ProfileE> persons = IntStream.iterate(1, n -> n + 1).limit(50)
                 .mapToObj(k ->ProfileE.builder()
                         .id(Long.valueOf(k))
                         .firstName("First Name - " + k)

@@ -1,0 +1,65 @@
+version: '3'
+services:
+  social-network-service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: profile-service
+    container_name: profile-service
+    restart: on-failure
+    ports:
+    - 9091:9091
+    environment:
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/social
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mohit123
+
+      MARIA_URL: jdbc:mariadb://mariadb:3306/social
+      MARIADB_USER: root
+      MARIADB_PASSWORD: '*****'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mariadb:
+        condition: service_healthy
+    networks:
+    - social-network
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: social
+      PGUSER: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: '*****'
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d social -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - social-network
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb_container
+    environment:
+      MARIADB_DATABASE: social
+      MARIADB_USER: social
+      MARIADB_PASSWORD: '*****'
+      MARIADB_ROOT_PASSWORD: '*****'
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - social-network
+networks:
+  social-network:
+    driver: bridge
+
+#https://stackoverflow.com/questions/72421740/spring-micro-services-eureka-client-is-not-registering-with-eureka-server

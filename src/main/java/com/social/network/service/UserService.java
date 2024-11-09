@@ -180,7 +180,7 @@ public class UserService implements IUserService
 	}
 
 	private void sendEmail(Profile user, Integer token, String subject) {
-		if(isRabbitMQEnabled.equals("true")){
+		if(isRabbitMQEnabled!=null && isRabbitMQEnabled.equals("true")){
 			Map<String, Object> mailData = Map.of("token", token, "fullName", user.getFirstName().concat(user.getLastName()));
 			rabbitTemplate.convertAndSend(emailExchange, emailRoutingKey, EmailDetailDTO.builder()
 					.to(user.getEmail())

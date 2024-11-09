@@ -30,7 +30,7 @@ public class EmailService {
 
     private final ObjectMapper objectMapper;
 
-    @Value("${application.mail.sent.from:ammydev321@gmail.com}")
+    @Value("${application.mail.sent.from}")
     private String fromUsr;
 
 

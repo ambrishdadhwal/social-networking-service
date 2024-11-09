@@ -1,8 +1,8 @@
 spring:
    datasource:
-      url: jdbc:postgresql://localhost:5432/social
-      username: postgres
-      password: ${POSTGRES_PASSWORD_DEV}
+      url: ${POSTGRES_URL}
+      username: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
       driverClassName: org.postgresql.Driver
    jpa:
       hibernate:
@@ -36,18 +36,18 @@ social:
    database:
    -  type: POSTGRES
       identifier: postgres
-      url: jdbc:postgresql://localhost:5432/social
-      username: postgres
-      password: ${POSTGRES_PASSWORD_DEV}
+      url: ${POSTGRES_URL}
+      username: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
       driverClassName: org.postgresql.Driver
       connections: 10
       minimumIdle: 7
       isEnabled: true
    -  type: MARIA
       identifier: maria
-      url: jdbc:mariadb://localhost:3306/social
-      username: root
-      password: ${MARIA_PASSWORD_DEV}
+      url: ${MARIA_URL}
+      username: ${MARIADB_USER}
+      password: ${MARIADB_PASSWORD}
       driverClassName: org.mariadb.jdbc.Driver
       connections: 10
       minimumIdle: 7
