@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.social.network.notification.EmailDetailDTO;
+import com.social.network.presentation.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,8 @@ public class UserService implements IUserService
 	private final ProfileRepo profileRepo;
 
 	private final RabbitTemplate rabbitTemplate;
+
+	private final IPostService postService;
 
 	@Value("${rabbitmq.exchange.email.name}")
 	private String emailExchange;
@@ -109,11 +112,15 @@ public class UserService implements IUserService
 
 	@Override
 	@SocialMethodVisit
-	public Optional<Profile> deleteUserById(Long userId)
-	{
-		Optional<Profile> user = allUsers().stream().filter(n -> n.getId().equals(userId)).findAny();
+	public Optional<Profile> deleteUserById(Long userId) throws Exception {
+		CommonResponse<Boolean> response = postService.deleteAllUserPost(userId);
+		if (response.getError() != null){
+			throw new Exception(response.getError());
+		}
+		Optional<ProfileE> user = userRepo.findById(userId);
 		userRepo.deleteById(userId);
-		return user;
+		log.info("User succesfully deleted - {} " , user.get().getEmail());
+		return Optional.ofNullable(ProfileMapper.convert(user.get()));
 	}
 
 	public long totalSocialUsers()

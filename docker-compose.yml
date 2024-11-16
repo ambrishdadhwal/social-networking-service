@@ -1,11 +1,13 @@
 version: '3'
 services:
+
+
   social-network-service:
     build:
       context: .
       dockerfile: ./Dockerfile
     image: profile-service
-    container_name: profile-service
+    container_name: social-network-service
     restart: on-failure
     ports:
     - 9091:9091
@@ -22,8 +24,24 @@ services:
         condition: service_healthy
       mariadb:
         condition: service_healthy
+      prometheus:
+        condition: service_healthy
     networks:
     - social-network
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./scripts/cfg/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:9090"]
+    networks:
+      - social-network
+
+
   postgres:
     image: postgres:latest
     container_name: postgres_container
@@ -41,6 +59,8 @@ services:
       retries: 10
     networks:
       - social-network
+
+
   mariadb:
     image: mariadb:latest
     container_name: mariadb_container

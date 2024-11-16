@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.social.network.presentation.CommonResponse;
+import com.social.network.presentation.ProfileDTO;
 import com.social.network.security.RequestContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,9 +89,10 @@ public class UserPostController
 	}
 
 	@DeleteMapping(value = "/{userId}/post/{postId}/")
-	public ResponseEntity<List<UserPostDTO>> deletePost(@PathVariable Long userId, @PathVariable Long postId)
+	public ResponseEntity<CommonResponse> deletePost(@PathVariable Long userId, @PathVariable Long postId)
 	{
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		CommonResponse response =postService.deleteUserPost(userId, postId);
+		return new ResponseEntity<>(response, response.getStatus());
 	}
 
 }

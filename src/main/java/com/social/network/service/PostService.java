@@ -2,14 +2,15 @@ package com.social.network.service;
 
 		import java.util.List;
 		import java.util.Optional;
-		import java.util.stream.Collectors;
 
+		import com.social.network.presentation.CommonResponse;
+		import com.social.network.security.RequestContextHolder;
+		import org.springframework.http.HttpStatus;
 		import org.springframework.stereotype.Service;
 
 		import com.social.network.utils.UserPostMapper;
 		import com.social.network.domain.UserPost;
 		import com.social.network.entity.ProfileE;
-		import com.social.network.entity.ProfileImageE;
 		import com.social.network.entity.UserPostE;
 		import com.social.network.repository.ProfileImageRepo;
 		import com.social.network.repository.UserPostRepo;
@@ -29,6 +30,8 @@ public class PostService implements IPostService
 	final UserRepo userRepo;
 
 	final ProfileImageRepo imageRepo;
+
+	private final RequestContextHolder requestContextHolder;
 
 	@Override
 	public Optional<UserPost> addUserPost(UserPost profilePost)
@@ -63,9 +66,64 @@ public class PostService implements IPostService
 	}
 
 	@Override
-	public Optional<UserPost> deleteUserPost(UserPost profilePost)
+	public CommonResponse<Boolean> deleteAllUserPost(Long userId)
 	{
-		return Optional.empty();
+
+		CommonResponse response =  CommonResponse
+				.builder()
+				.status(HttpStatus.OK)
+				.build();
+
+		long loggedInUser = requestContextHolder.getContext().getUserId();
+		if (loggedInUser != userId){
+			response.setStatus(HttpStatus.FORBIDDEN);
+			response.setError("You must logged with required user.");
+			return response;
+		}
+
+		try{
+			imageRepo.deleteAllByUserId(userId);
+
+			postRepo.deleteByUserId(userId);
+
+			log.info("Successfully deleted user post for userId {} ", userId);
+			response.setData(true);
+		}
+		catch (Exception e) {
+			response.setError(e.getMessage());
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	public CommonResponse<Boolean> deleteUserPost(Long userId, Long postId)
+	{
+		CommonResponse response =  CommonResponse
+				.builder()
+				.status(HttpStatus.OK)
+				.build();
+
+		long loggedInUser = requestContextHolder.getContext().getUserId();
+		if (loggedInUser != userId){
+			response.setStatus(HttpStatus.FORBIDDEN);
+			response.setError("You must logged with required user.");
+			return response;
+		}
+
+		try{
+			imageRepo.deleteAllByUserIdAndPostId(userId, postId);
+
+			postRepo.deleteByPostIdAndUserId(userId, postId);
+
+			log.info("Successfully deleted user post for userId {} and postId {}", userId, postId);
+			response.setData(true);
+		}
+		catch (Exception e) {
+			response.setError(e.getMessage());
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return response;
 	}
 
 }

@@ -23,7 +23,7 @@ public interface IUserService
 
 	public Optional<Profile> getUserbyUserNameAndId(String userName, Long userId);
 
-	public Optional<Profile> deleteUserById(Long userId);
+	public Optional<Profile> deleteUserById(Long userId) throws Exception;
 
 	public Optional<Profile> getUserbyUserName(String userName);
 

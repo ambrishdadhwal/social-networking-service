@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.social.network.security.RequestContext;
 import com.social.network.security.RequestContextHolder;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -97,6 +98,7 @@ public class UserController
 	}
 
 	@PostMapping(value = "/", consumes = "application/json", produces = "application/json")
+	@Timed(value = "create.user.time", description = "Time taken to create a new user")
 	public ResponseEntity<CommonResponse<ProfileDTO>> createUser(@RequestBody @Validated ProfileDTO user) throws Exception
 	{
 		Optional<Profile> newUser = userService.saveUser(ProfileMapper.convert(user));
@@ -112,10 +114,12 @@ public class UserController
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<ProfileDTO> deleteUser(@PathVariable Long id)
-	{
-		userService.deleteUserById(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<ProfileDTO> deleteUser(@PathVariable Long id) throws Exception {
+		Optional<Profile> existingUser = userService.deleteUserById(id);
+		if(existingUser.isPresent()){
+			return new ResponseEntity<>(ProfileMapper.convertDTO(existingUser.get()), HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 }

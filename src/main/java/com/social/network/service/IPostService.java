@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.social.network.domain.UserPost;
+import com.social.network.entity.UserPostE;
+import com.social.network.presentation.CommonResponse;
 
 public interface IPostService
 {
@@ -14,5 +16,7 @@ public interface IPostService
 
 	public UserPost getUserPostByUserIdAndPostId(Long userId, Long postId);
 
-	public Optional<UserPost> deleteUserPost(UserPost profilePost);
+    CommonResponse<Boolean> deleteAllUserPost(Long userId);
+
+    public  CommonResponse<Boolean> deleteUserPost(Long userId, Long postId);
 }

@@ -17,6 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 @SpringBootApplication
 @EnableRabbit
+@EnableTransactionManagement
 public class SocialNetworkingServiceApplication implements CommandLineRunner {
 
     final UserRepo userRepo;
