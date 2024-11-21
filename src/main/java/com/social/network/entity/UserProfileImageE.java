@@ -2,7 +2,7 @@ package com.social.network.entity;
 
 import java.time.LocalDateTime;
 
-import com.social.network.domain.ImageType;
+import com.social.network.domain.UserImageType;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "social_user_image")
 @SuperBuilder
-public class ProfileImageE
+public class UserProfileImageE
 {
 
 	@Id
@@ -27,7 +27,7 @@ public class ProfileImageE
 
 	@ManyToOne()
 	@JoinColumn(name = "social_user_id")
-	private ProfileE user;
+	private UserProfileE user;
 
 	@ManyToOne()
 	@JoinColumn(name = "social_post_id")
@@ -44,7 +44,7 @@ public class ProfileImageE
 
 	@Column
 	@Enumerated(EnumType.STRING)
-	private ImageType imageType;
+	private UserImageType userImageType;
 
 	@Column
 	private byte[] image;

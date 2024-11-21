@@ -19,9 +19,9 @@ public class UserPost
 
 	private Long id;
 	private Long userId;
-	private Profile user;
+	private UserProfile user;
 	private String post;
-	private Set<ProfileImage> images;
+	private Set<UserProfileImage> images;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
 }

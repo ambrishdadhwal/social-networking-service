@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 
 public class UserPrincipal implements UserDetails
 {
@@ -43,7 +43,7 @@ public class UserPrincipal implements UserDetails
 		this.authorities = authorities;
 	}
 
-	public static UserPrincipal create(Profile user)
+	public static UserPrincipal create(UserProfile user)
 	{
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 			.map(role -> new SimpleGrantedAuthority("ROLE_"+role))

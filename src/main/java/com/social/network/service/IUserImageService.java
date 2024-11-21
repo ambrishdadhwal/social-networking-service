@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import com.social.network.domain.Profile;
-import com.social.network.domain.ProfileImage;
+import com.social.network.domain.UserProfile;
+import com.social.network.domain.UserProfileImage;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IUserImageService
 {
 
-	Optional<Profile> uploadUserProfileImage(Long userId, MultipartFile file) throws IOException;
+	Optional<UserProfile> uploadUserProfileImage(Long userId, MultipartFile file) throws IOException;
 
-	List<ProfileImage> getUserProfileImages(Long userId);
+	List<UserProfileImage> getUserProfileImages(Long userId);
 
-	ProfileImage getUserProfileImage(Long userId, Long imageId);
+	UserProfileImage getUserProfileImage(Long userId, Long imageId);
 }

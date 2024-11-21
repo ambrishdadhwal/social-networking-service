@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Profile
+public class UserProfile
 {
 
 	private Long id;
@@ -30,7 +30,7 @@ public class Profile
 	private Boolean isActive;
 	private Set<String> roles;
 	private String profileImage;
-	private Set<ProfileImage> profileImages;
+	private Set<UserProfileImage> userProfileImages;
 	private LocalDateTime createDateTime;
 	private LocalDateTime modifiedDateTime;
 

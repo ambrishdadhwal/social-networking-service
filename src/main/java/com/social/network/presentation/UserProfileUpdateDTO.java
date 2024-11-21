@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
-public class ProfileUpdateDTO
+public class UserProfileUpdateDTO
 {
 
 	private Long id;

@@ -2,7 +2,7 @@ package com.social.network.security;
 
 import java.util.Optional;
 
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 import com.social.network.service.IUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,11 +26,11 @@ public class CustomUserDetailsService implements UserDetailsService
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
 		log.info("Inside CustomUserDetailsService.loadUserByUsername .....");
-		Optional<Profile> currentUser = profileService.getUserbyEmail(username);
+		Optional<UserProfile> currentUser = profileService.getUserbyEmail(username);
 
 		if (currentUser.isPresent())
 		{
-			Profile user = currentUser.get();
+			UserProfile user = currentUser.get();
 			return UserPrincipal.create(user);
 		}
 
@@ -40,12 +40,12 @@ public class CustomUserDetailsService implements UserDetailsService
 	public UserPrincipal loadUserByUsername(String username, HttpServletRequest request) throws UsernameNotFoundException
 	{
 		log.info("Inside CustomUserDetailsService.loadUserByUsername .....");
-		Optional<Profile> currentUser = profileService.getUserbyEmail(username);
+		Optional<UserProfile> currentUser = profileService.getUserbyEmail(username);
 
 		if (currentUser.isPresent())
 		{
 			//request.setAttribute("CurrentUser", currentUser.get());
-			Profile user = currentUser.get();
+			UserProfile user = currentUser.get();
 
 			return UserPrincipal.create(user);
 		}

@@ -13,16 +13,16 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class ProfileImage
+public class UserProfileImage
 {
 
 	private Long id;
 	private Long userId;
-	private Profile profile;
+	private UserProfile profile;
 	private String imageName;
 	private String imageDescription;
 	private byte[] image;
-	private ImageType imageType;
+	private UserImageType userImageType;
 	private Boolean isActive;
 	private LocalDateTime createDateTime;
 	private LocalDateTime modifyDateTime;

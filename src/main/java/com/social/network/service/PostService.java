@@ -3,6 +3,7 @@ package com.social.network.service;
 		import java.util.List;
 		import java.util.Optional;
 
+		import com.social.network.entity.UserProfileE;
 		import com.social.network.presentation.CommonResponse;
 		import com.social.network.security.RequestContextHolder;
 		import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ package com.social.network.service;
 
 		import com.social.network.utils.UserPostMapper;
 		import com.social.network.domain.UserPost;
-		import com.social.network.entity.ProfileE;
 		import com.social.network.entity.UserPostE;
 		import com.social.network.repository.ProfileImageRepo;
 		import com.social.network.repository.UserPostRepo;
@@ -38,7 +38,7 @@ public class PostService implements IPostService
 	{
 		UserPostE profilePostE = UserPostMapper.convertEntity(profilePost);
 
-		Optional<ProfileE> profile = userRepo.findById(profilePost.getUserId());
+		Optional<UserProfileE> profile = userRepo.findById(profilePost.getUserId());
 		profilePostE.getImages().forEach(m -> {
 			m.setUser(profile.get());
 		});

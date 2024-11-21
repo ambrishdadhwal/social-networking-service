@@ -1,10 +1,8 @@
-package com.social.network.restcontroller;
+package com.social.network.restcontroller.usermanagement;
 
 import com.social.network.presentation.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user/settings")

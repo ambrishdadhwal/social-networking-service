@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.social.network.domain.Country;
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 
 @Repository
 public class ProfileRepo extends SocialRepository
@@ -30,7 +30,7 @@ public class ProfileRepo extends SocialRepository
 		return count;
 	}
 
-	public Optional<Profile> getUser(Profile user) throws Exception
+	public Optional<UserProfile> getUser(UserProfile user) throws Exception
 	{
 		List<Object> args = new ArrayList<>();
 
@@ -54,13 +54,13 @@ public class ProfileRepo extends SocialRepository
 			sql.append(" AND password = ?");
 		}
 
-		List<Profile> existingUser = jdbcTemplate.query(sql.toString(), new RowMapper<Profile>()
+		List<UserProfile> existingUser = jdbcTemplate.query(sql.toString(), new RowMapper<UserProfile>()
 		{
 
 			@Override
-			public Profile mapRow(ResultSet rs, int rowNum) throws SQLException
+			public UserProfile mapRow(ResultSet rs, int rowNum) throws SQLException
 			{
-				return Profile.builder()
+				return UserProfile.builder()
 					.id(rs.getLong("id"))
 					.country(Country.getCountry(rs.getString("country")))
 					.email(rs.getString("email"))

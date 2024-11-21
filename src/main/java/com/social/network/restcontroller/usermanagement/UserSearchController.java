@@ -1,4 +1,4 @@
-package com.social.network.restcontroller;
+package com.social.network.restcontroller.usermanagement;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.social.network.utils.ProfileMapper;
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 import com.social.network.presentation.CommonResponse;
-import com.social.network.presentation.ProfileDTO;
+import com.social.network.presentation.UserProfileDTO;
 import com.social.network.service.IUserService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,10 +28,10 @@ public class UserSearchController
 
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping(value = "/{name}")
-	public ResponseEntity<CommonResponse<List<ProfileDTO>>> getUserById(@PathVariable(required = true, name = "name") String name)
+	public ResponseEntity<CommonResponse<List<UserProfileDTO>>> getUserById(@PathVariable(required = true, name = "name") String name)
 	{
-		List<Profile> profiles = userService.getUsersSearchbyName(name);
-		CommonResponse<List<ProfileDTO>> dto = new CommonResponse<>();
+		List<UserProfile> profiles = userService.getUsersSearchbyName(name);
+		CommonResponse<List<UserProfileDTO>> dto = new CommonResponse<>();
 		dto.setData(profiles.stream().map(ProfileMapper::convertDTO).toList());
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}

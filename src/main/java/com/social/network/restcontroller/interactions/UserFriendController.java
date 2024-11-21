@@ -1,4 +1,4 @@
-package com.social.network.restcontroller;
+package com.social.network.restcontroller.interactions;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 import com.social.network.presentation.CommonResponse;
-import com.social.network.presentation.ProfileDTO;
+import com.social.network.presentation.UserProfileDTO;
 import com.social.network.service.IUserFriendService;
 import com.social.network.service.ProfileException;
 
@@ -31,7 +31,7 @@ public class UserFriendController
 	public ResponseEntity<CommonResponse<String>> sendFriendRequest(@PathVariable("toId") Long toId, HttpServletRequest httpRequest)
 		throws ProfileException
 	{
-		Profile profile = (Profile)httpRequest.getAttribute("CurrentUser");
+		UserProfile profile = (UserProfile)httpRequest.getAttribute("CurrentUser");
 		boolean request = userFriendService.updateFriendRequest(profile.getId(), toId, false);
 		CommonResponse<String> dto = new CommonResponse<>();
 		dto.setData(request ? "Friend Request sent successfully." : "Something went wrong");
@@ -43,7 +43,7 @@ public class UserFriendController
 		HttpServletRequest httpRequest)
 		throws ProfileException
 	{
-		Profile profile = (Profile)httpRequest.getAttribute("CurrentUser");
+		UserProfile profile = (UserProfile)httpRequest.getAttribute("CurrentUser");
 		boolean request = userFriendService.updateFriendRequest(profile.getId(), toId, decision);
 		CommonResponse<String> dto = new CommonResponse<>();
 		dto.setData(request ? "Friend Request sent successfully." : "Something went wrong");
@@ -51,20 +51,20 @@ public class UserFriendController
 	}
 
 	@PutMapping(value = "/{userId}/friends", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<CommonResponse<List<ProfileDTO>>> getFriends(HttpServletRequest httpRequest, @PathVariable("userId") Long userId)
+	public ResponseEntity<CommonResponse<List<UserProfileDTO>>> getFriends(HttpServletRequest httpRequest, @PathVariable("userId") Long userId)
 	{
-		Profile profile = (Profile)httpRequest.getAttribute("CurrentUser");
-		CommonResponse<List<ProfileDTO>> dto = new CommonResponse<>();
+		UserProfile profile = (UserProfile)httpRequest.getAttribute("CurrentUser");
+		CommonResponse<List<UserProfileDTO>> dto = new CommonResponse<>();
 		dto.setData(null);
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/{userId}/friends/{friendId}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<CommonResponse<List<ProfileDTO>>> getFriendById(HttpServletRequest httpRequest, 
-		@PathVariable("userId") Long userId, @PathVariable("friendId") Long friendId)
+	public ResponseEntity<CommonResponse<List<UserProfileDTO>>> getFriendById(HttpServletRequest httpRequest,
+																			  @PathVariable("userId") Long userId, @PathVariable("friendId") Long friendId)
 	{
-		Profile profile = (Profile)httpRequest.getAttribute("CurrentUser");
-		CommonResponse<List<ProfileDTO>> dto = new CommonResponse<>();
+		UserProfile profile = (UserProfile)httpRequest.getAttribute("CurrentUser");
+		CommonResponse<List<UserProfileDTO>> dto = new CommonResponse<>();
 		dto.setData(null);
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}

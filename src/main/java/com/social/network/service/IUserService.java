@@ -3,38 +3,38 @@ package com.social.network.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 
 public interface IUserService
 {
 
 	// params can be configurable in application.properties
-	public Optional<Profile> saveUser(Profile user) throws Exception;
+	public Optional<UserProfile> saveUser(UserProfile user) throws Exception;
 
-	public List<Profile> allUsers();
+	public List<UserProfile> allUsers();
 
 	public long totalSocialUsers();
 
-	public Optional<Profile> getUser(Profile user) throws Exception;
+	public Optional<UserProfile> getUser(UserProfile user) throws Exception;
 
-	public Optional<Profile> updateUser(Profile user);
+	public Optional<UserProfile> updateUser(UserProfile user);
 
-	public Optional<Profile> getUserbyId(Long userId);
+	public Optional<UserProfile> getUserbyId(Long userId);
 
-	public Optional<Profile> getUserbyUserNameAndId(String userName, Long userId);
+	public Optional<UserProfile> getUserbyUserNameAndId(String userName, Long userId);
 
-	public Optional<Profile> deleteUserById(Long userId) throws Exception;
+	public Optional<UserProfile> deleteUserById(Long userId) throws Exception;
 
-	public Optional<Profile> getUserbyUserName(String userName);
+	public Optional<UserProfile> getUserbyUserName(String userName);
 
-	public Optional<Profile> getUserbyEmail(String email);
+	public Optional<UserProfile> getUserbyEmail(String email);
 
-	public List<Profile> getUserbyuserEmail(String email);
+	public List<UserProfile> getUserbyuserEmail(String email);
 
-	public List<Profile> searchUsers(String search);
+	public List<UserProfile> searchUsers(String search);
 
-	public List<Profile> getUsersSearchbyName(String name);
+	public List<UserProfile> getUsersSearchbyName(String name);
 
-	public List<Profile> allUsersPaging(Integer pageNumber, Integer pageSize);
+	public List<UserProfile> allUsersPaging(Integer pageNumber, Integer pageSize);
 
 }

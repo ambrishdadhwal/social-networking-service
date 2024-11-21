@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.social.network.entity.UserProfileE;
 import com.social.network.notification.EmailDetailDTO;
 import com.social.network.presentation.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.social.network.utils.ProfileMapper;
 import com.social.network.utils.SocialMethodVisit;
-import com.social.network.domain.Profile;
-import com.social.network.entity.ProfileE;
+import com.social.network.domain.UserProfile;
 import com.social.network.repository.ProfileRepo;
 import com.social.network.repository.UserRepo;
 
@@ -52,22 +51,22 @@ public class UserService implements IUserService
 	private String isRabbitMQEnabled;
 
 	@SocialMethodVisit
-	public Optional<Profile> saveUser(Profile user) throws Exception
+	public Optional<UserProfile> saveUser(UserProfile user) throws Exception
 	{
-		Optional<ProfileE> existingUser = userRepo.findByEmail(user.getEmail());
+		Optional<UserProfileE> existingUser = userRepo.findByEmail(user.getEmail());
 		if (existingUser.isPresent())
 		{
 			throw new ProfileException("User already exist with email -- " + user.getEmail());
 		}
 
-		ProfileE newUser = ProfileMapper.convert(user);
+		UserProfileE newUser = ProfileMapper.convert(user);
 		newUser.setCreateDateTime(LocalDateTime.now());
 		newUser.setModifiedDateTime(LocalDateTime.now());
 		newUser.setIsActive(true);
 		try
 		{
 			Integer token = Integer.valueOf((int) (Math.random() * 10000));
-			ProfileE savedUser = userRepo.save(newUser);
+			UserProfileE savedUser = userRepo.save(newUser);
 			sendEmail(user, token, "Email Verification");
 			return Optional.of(ProfileMapper.convert(savedUser));
 		}
@@ -78,7 +77,7 @@ public class UserService implements IUserService
 	}
 
 	@SocialMethodVisit
-	public List<Profile> allUsers()
+	public List<UserProfile> allUsers()
 	{
 		return userRepo.findAll().stream().map(ProfileMapper::convert).collect(Collectors.toList());
 	}
@@ -86,7 +85,7 @@ public class UserService implements IUserService
 	@Override
 	@SocialMethodVisit
 	@Cacheable(cacheNames = {"personCache"}, key = "'persons_all_'+#pageNumber +'_'+#pageSize")
-	public List<Profile> allUsersPaging(Integer pageNumber, Integer pageSize)
+	public List<UserProfile> allUsersPaging(Integer pageNumber, Integer pageSize)
 	{
 		log.info("Getting all the users.......");
 		Sort sortByName = Sort.by("firstName","lastName");
@@ -96,14 +95,14 @@ public class UserService implements IUserService
 	}
 
 	@SocialMethodVisit
-	public Optional<Profile> getUserbyId(Long userId)
+	public Optional<UserProfile> getUserbyId(Long userId)
 	{
 		return allUsers().stream().filter(n -> n.getId().equals(userId)).findAny();
 	}
 
 	@Override
 	@SocialMethodVisit
-	public Optional<Profile> getUserbyUserNameAndId(@NotEmpty String userName, Long userId)
+	public Optional<UserProfile> getUserbyUserNameAndId(@NotEmpty String userName, Long userId)
 	{
 		return allUsers().stream()
 			.filter(n -> n.getEmail().equals(userName) && n.getId().equals(userId))
@@ -112,12 +111,12 @@ public class UserService implements IUserService
 
 	@Override
 	@SocialMethodVisit
-	public Optional<Profile> deleteUserById(Long userId) throws Exception {
+	public Optional<UserProfile> deleteUserById(Long userId) throws Exception {
 		CommonResponse<Boolean> response = postService.deleteAllUserPost(userId);
 		if (response.getError() != null){
 			throw new Exception(response.getError());
 		}
-		Optional<ProfileE> user = userRepo.findById(userId);
+		Optional<UserProfileE> user = userRepo.findById(userId);
 		userRepo.deleteById(userId);
 		log.info("User succesfully deleted - {} " , user.get().getEmail());
 		return Optional.ofNullable(ProfileMapper.convert(user.get()));
@@ -129,64 +128,64 @@ public class UserService implements IUserService
 	}
 
 	@Override
-	public Optional<Profile> getUser(Profile user) throws Exception
+	public Optional<UserProfile> getUser(UserProfile user) throws Exception
 	{
 		return profileRepo.getUser(user);
 	}
 
 	@Override
 	@SocialMethodVisit
-	public Optional<Profile> updateUser(Profile user)
+	public Optional<UserProfile> updateUser(UserProfile user)
 	{
-		Optional<ProfileE> existingDBUser = userRepo.findById(user.getId());
+		Optional<UserProfileE> existingDBUser = userRepo.findById(user.getId());
 
 		if (existingDBUser.isPresent())
 		{
-			ProfileE profile = existingDBUser.get();
+			UserProfileE profile = existingDBUser.get();
 			profile.setFirstName(user.getFirstName());
 			profile.setLastName(user.getLastName());
 			profile.setCountry(user.getCountry());
 			profile.setDob(user.getDob());
 			profile.setModifiedDateTime(LocalDateTime.now());
-			ProfileE savedUser = userRepo.save(profile);
+			UserProfileE savedUser = userRepo.save(profile);
 			return Optional.of(ProfileMapper.convert(savedUser));
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Profile> getUserbyUserName(String userName)
+	public Optional<UserProfile> getUserbyUserName(String userName)
 	{
 		return allUsers().stream().filter(n -> n.getUserName().equals(userName)).findAny();
 	}
 
 	@Override
-	public Optional<Profile> getUserbyEmail(String email)
+	public Optional<UserProfile> getUserbyEmail(String email)
 	{
-		Optional<ProfileE> existingUser = userRepo.findByEmail(email);
+		Optional<UserProfileE> existingUser = userRepo.findByEmail(email);
 		return Optional.of(ProfileMapper.convert(existingUser.get()));
 	}
 
 	@Override
-	public List<Profile> getUserbyuserEmail(String email)
+	public List<UserProfile> getUserbyuserEmail(String email)
 	{
 		return allUsers().stream().filter(n -> n.getEmail().equals(email)).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Profile> searchUsers(String search)
+	public List<UserProfile> searchUsers(String search)
 	{
 		return getUsersSearchbyName(search);
 	}
 
 	@Override
 	@SocialMethodVisit
-	public List<Profile> getUsersSearchbyName(String name)
+	public List<UserProfile> getUsersSearchbyName(String name)
 	{
 		return userRepo.findByFirstNameContaining(name).stream().map(ProfileMapper::convert).collect(Collectors.toList());
 	}
 
-	private void sendEmail(Profile user, Integer token, String subject) {
+	private void sendEmail(UserProfile user, Integer token, String subject) {
 		if(isRabbitMQEnabled!=null && isRabbitMQEnabled.equals("true")){
 			Map<String, Object> mailData = Map.of("token", token, "fullName", user.getFirstName().concat(user.getLastName()));
 			rabbitTemplate.convertAndSend(emailExchange, emailRoutingKey, EmailDetailDTO.builder()

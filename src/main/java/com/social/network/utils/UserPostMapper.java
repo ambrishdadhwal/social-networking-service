@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.social.network.domain.ImageType;
-import com.social.network.domain.Profile;
-import com.social.network.domain.ProfileImage;
+import com.social.network.domain.UserImageType;
+import com.social.network.domain.UserProfile;
+import com.social.network.domain.UserProfileImage;
 import com.social.network.domain.UserPost;
-import com.social.network.entity.ProfileE;
-import com.social.network.entity.ProfileImageE;
+import com.social.network.entity.UserProfileE;
+import com.social.network.entity.UserProfileImageE;
 import com.social.network.entity.UserPostE;
 import com.social.network.presentation.ImageTypeDTO;
-import com.social.network.presentation.ProfileImageDTO;
-import com.social.network.presentation.UserPostDTO;
+import com.social.network.presentation.UserProfileImageDTO;
+import com.social.network.presentation.UserUserPostDTO;
 
 import lombok.experimental.UtilityClass;
 
@@ -21,7 +21,7 @@ import lombok.experimental.UtilityClass;
 public class UserPostMapper
 {
 
-	public static UserPost convert(UserPostDTO from)
+	public static UserPost convert(UserUserPostDTO from)
 	{
 		if (!Objects.nonNull(from))
 		{
@@ -34,106 +34,106 @@ public class UserPostMapper
 			.build();
 	}
 
-	public static ProfileImage convert(ProfileImageDTO from)
+	public static UserProfileImage convert(UserProfileImageDTO from)
 	{
 		if (!Objects.nonNull(from))
 		{
 			return null;
 		}
 
-		return ProfileImage.builder()
+		return UserProfileImage.builder()
 			.id(from.getId())
 			.imageName(from.getImageName())
 			.imageDescription(from.getImageDescription())
 			.createDateTime(from.getCreateDate())
-			.imageType(ImageType.valueOf(from.getImageType().toString()))
+			.userImageType(UserImageType.valueOf(from.getImageType().toString()))
 			.modifyDateTime(from.getModifyDate())
 			.build();
 	}
 
-	public static ProfileImageDTO convertImageDTO(ProfileImage from)
+	public static UserProfileImageDTO convertImageDTO(UserProfileImage from)
 	{
 		if (!Objects.nonNull(from))
 		{
 			return null;
 		}
 
-		return ProfileImageDTO.builder()
+		return UserProfileImageDTO.builder()
 			.id(from.getId())
 			.imageName(from.getImageName())
 			.imageDescription(from.getImageDescription())
 			.createDate(from.getCreateDateTime())
-			.imageType(ImageTypeDTO.valueOf(from.getImageType().toString()))
+			.imageType(ImageTypeDTO.valueOf(from.getUserImageType().toString()))
 			.modifyDate(from.getModifyDateTime())
 			.build();
 	}
 
-	public static ProfileImage convert(ProfileImageE from)
+	public static UserProfileImage convert(UserProfileImageE from)
 	{
 		if (!Objects.nonNull(from))
 		{
 			return null;
 		}
 
-		return ProfileImage.builder()
+		return UserProfileImage.builder()
 			.id(from.getId())
 			.imageName(from.getImageName())
 			.imageDescription(from.getImageDescription())
-			.imageType(from.getImageType())
+			.userImageType(from.getUserImageType())
 			.createDateTime(from.getCreateDateTime())
 			.modifyDateTime(from.getModifyDateTime())
 			.build();
 	}
 
-	public static ProfileImageE convert(ProfileImage from)
+	public static UserProfileImageE convert(UserProfileImage from)
 	{
 		if (!Objects.nonNull(from))
 		{
 			return null;
 		}
 
-		return ProfileImageE.builder()
+		return UserProfileImageE.builder()
 			.id(from.getId())
 			.imageName(from.getImageName())
-			.imageType(from.getImageType())
+			.userImageType(from.getUserImageType())
 			.imageDescription(from.getImageDescription())
 			.createDateTime(from.getCreateDateTime())
 			.modifyDateTime(from.getModifyDateTime())
 			.build();
 	}
 
-	public static ProfileImageDTO convertDTO(ProfileImage from)
+	public static UserProfileImageDTO convertDTO(UserProfileImage from)
 	{
 		if (!Objects.nonNull(from))
 		{
 			return null;
 		}
 
-		return ProfileImageDTO.builder()
+		return UserProfileImageDTO.builder()
 			.id(from.getId())
 			.imageName(from.getImageName())
-			.imageType(ImageTypeDTO.valueOf(from.getImageType().toString()))
+			.imageType(ImageTypeDTO.valueOf(from.getUserImageType().toString()))
 			.imageDescription(from.getImageDescription())
 			.createDate(from.getCreateDateTime())
 			.modifyDate(from.getModifyDateTime())
 			.build();
 	}
 
-	public static UserPostDTO convert(UserPost from)
+	public static UserUserPostDTO convert(UserPost from)
 	{
 		if (!Objects.nonNull(from))
 		{
 			return null;
 		}
 
-		Profile profile = from.getUser();
+		UserProfile profile = from.getUser();
 
-		return UserPostDTO.builder()
+		return UserUserPostDTO.builder()
 			.id(from.getId())
 				.userId(profile.getId())
 			//.user(ProfileMapper.convertDTO(profile))
 			.post(from.getPost())
-			.images(from.getImages().stream().filter(n->n.getImageType().equals(ImageType.POST_PIC)).map(UserPostMapper::convertImageDTO).collect(Collectors.toSet()))
+			.images(from.getImages().stream().filter(n->n.getUserImageType().equals(UserImageType.POST_PIC)).map(UserPostMapper::convertImageDTO).collect(Collectors.toSet()))
 			.createdTime(from.getCreatedTime())
 			.modifiedTime(from.getModifiedTime())
 			.build();
@@ -161,7 +161,7 @@ public class UserPostMapper
 			return null;
 		}
 
-		ProfileE profile = from.getUser();
+		UserProfileE profile = from.getUser();
 
 		return UserPost.builder()
 			.id(from.getId())

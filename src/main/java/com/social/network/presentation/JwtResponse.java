@@ -1,4 +1,4 @@
-package com.social.network.restcontroller;
+package com.social.network.presentation;
 
 import java.io.Serializable;
 

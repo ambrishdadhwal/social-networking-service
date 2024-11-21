@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,11 +33,11 @@ public class UserFriendE
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private ProfileE user;
+	private UserProfileE user;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "friend_id", referencedColumnName = "id")
-	private ProfileE friend;
+	private UserProfileE friend;
 
 	@Column
 	private Boolean isFriend;

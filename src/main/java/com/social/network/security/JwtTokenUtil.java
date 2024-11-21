@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.social.network.domain.Profile;
+import com.social.network.domain.UserProfile;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -62,7 +62,7 @@ public class JwtTokenUtil implements Serializable
 	}
 
 	// generate token for user
-	public String generateToken(Profile userProfile)
+	public String generateToken(UserProfile userProfile)
 	{
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("userName", userProfile.getUserName());
@@ -70,7 +70,7 @@ public class JwtTokenUtil implements Serializable
 		return generateToken(claims, userProfile);
 	}
 
-	public String generateToken(Map<String, Object> extraClaims, Profile userDetails)
+	public String generateToken(Map<String, Object> extraClaims, UserProfile userDetails)
 	{
 		return Jwts.builder()
 			.claims()

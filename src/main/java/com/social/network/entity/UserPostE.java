@@ -30,7 +30,7 @@ public class UserPostE
 
 	@ManyToOne
 	@JoinColumn(name = "user_a_id")
-	private ProfileE user;
+	private UserProfileE user;
 
 	@Column
 	private String postData;
@@ -40,7 +40,7 @@ public class UserPostE
 	 * */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "social_post_id", referencedColumnName = "id")
-	private Set<ProfileImageE> images;
+	private Set<UserProfileImageE> images;
 
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)

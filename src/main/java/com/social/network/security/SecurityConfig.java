@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/").permitAll()
                         .requestMatchers(HttpMethod.POST, "/gen-ai/search").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login/token").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/token").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/index/**").permitAll()

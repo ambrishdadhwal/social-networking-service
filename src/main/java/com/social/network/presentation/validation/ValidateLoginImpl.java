@@ -1,16 +1,16 @@
 package com.social.network.presentation.validation;
 
-import com.social.network.presentation.ProfileLoginDTO;
+import com.social.network.presentation.UserProfileLoginDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class ValidateLoginImpl implements ConstraintValidator<ValidateLogin, ProfileLoginDTO>
+public class ValidateLoginImpl implements ConstraintValidator<ValidateLogin, UserProfileLoginDTO>
 {
 
 	@Override
-	public boolean isValid(ProfileLoginDTO value, ConstraintValidatorContext context)
+	public boolean isValid(UserProfileLoginDTO value, ConstraintValidatorContext context)
 	{
-		if (!(value instanceof ProfileLoginDTO))
+		if (!(value instanceof UserProfileLoginDTO))
 		{
 			throw new IllegalArgumentException("@ValidateLogin only applies to SocialLoginDTO objects");
 		}

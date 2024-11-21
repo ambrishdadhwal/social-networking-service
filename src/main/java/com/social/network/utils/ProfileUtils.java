@@ -1,4 +1,4 @@
-package com.social.network.restcontroller;
+package com.social.network.utils;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.social.network.restcontroller.usermanagement.UserAuthController;
+import com.social.network.restcontroller.usermanagement.UserController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.social.network.presentation.ImageTypeDTO;
-import com.social.network.presentation.ProfileDTO;
-import com.social.network.presentation.ProfileImageDTO;
-import com.social.network.presentation.ProfileLoginDTO;
-import com.social.network.restcontroller.UserController;
-import com.social.network.restcontroller.UserLoginController;
+import com.social.network.presentation.UserProfileDTO;
+import com.social.network.presentation.UserProfileImageDTO;
+import com.social.network.presentation.UserProfileLoginDTO;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -30,11 +30,11 @@ public class ProfileUtils<T>
 
 	public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
-	public static Set<ProfileImageDTO> createImages(MultipartFile[] files) throws IOException
+	public static Set<UserProfileImageDTO> createImages(MultipartFile[] files) throws IOException
 	{
 		Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
 
-		Set<ProfileImageDTO> images = new HashSet<>();
+		Set<UserProfileImageDTO> images = new HashSet<>();
 		if (files != null)
 		{
 			try
@@ -46,7 +46,7 @@ public class ProfileUtils<T>
 					fileName.append(file.getOriginalFilename());
 					Files.write(fileNameAndPath, file.getBytes());
 
-					ProfileImageDTO postImage = ProfileImageDTO.builder()
+					UserProfileImageDTO postImage = UserProfileImageDTO.builder()
 						.imageName(file.getOriginalFilename())
 						.imageDescription(fileNameAndPath.toString())
 						.imageType(ImageTypeDTO.POST_PIC)
@@ -64,13 +64,13 @@ public class ProfileUtils<T>
 		return images;
 	}
 
-	public static void addLinkToUser(ProfileDTO user)
+	public static void addLinkToUser(UserProfileDTO user)
 	{
 		try
 		{
 			user.add(linkTo(UserController.class).slash(user.getId()).withSelfRel());
 			user.add(linkTo(methodOn(UserController.class).getUsers(0, 50)).withRel("users"));
-			user.add(linkTo(methodOn(UserLoginController.class).getUserToken(ProfileLoginDTO.builder().build())).withRel("login-token"));
+			user.add(linkTo(methodOn(UserAuthController.class).getUserToken(UserProfileLoginDTO.builder().build())).withRel("login-token"));
 		}
 		catch (Exception e)
 		{

@@ -1,16 +1,14 @@
 package com.social.network.presentation;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,28 +20,31 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserPostDTO
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class UserProfileImageDTO
 {
 
 	private Long id;
 
-	private Long userId;
+	private UserProfileDTO user;
 
-	@JsonIgnore
-	private ProfileDTO user;
+	private String imageName;
 
-	@NotEmpty(message = "post cannot be empty")
-	private String post;
+	private String imageDescription;
 
-	private Set<ProfileImageDTO> images;
+	private byte[] image;
 
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
-	private LocalDateTime createdTime;
+	private ImageTypeDTO imageType;
+
+	private Boolean isActive;
 
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
-	private LocalDateTime modifiedTime;
+	@JsonFormat(pattern = "MM/dd/yyyy")
+	private LocalDateTime createDate;
+
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonFormat(pattern = "MM/dd/yyyy")
+	private LocalDateTime modifyDate;
 }

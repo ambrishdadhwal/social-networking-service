@@ -36,12 +36,12 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = ProfileE.TABLE_NAME, uniqueConstraints =
+@Table(name = UserProfileE.TABLE_NAME, uniqueConstraints =
 {@UniqueConstraint(columnNames = "email")})
 @SuperBuilder
 @Slf4j
 @Data
-public class ProfileE
+public class UserProfileE
 {
 
 	protected final static String TABLE_NAME = "social_user";
@@ -67,7 +67,7 @@ public class ProfileE
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "social_user_id", referencedColumnName = "id")
-	private Set<ProfileImageE> profileImages;
+	private Set<UserProfileImageE> profileImages;
 
 	@Column(name = "isActive", columnDefinition = "boolean default false")
 	private Boolean isActive;
@@ -88,7 +88,7 @@ public class ProfileE
 	// before
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private Set<ProfileRoleE> userRoles;
+	private Set<UserProfileRoleE> userRoles;
 
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)

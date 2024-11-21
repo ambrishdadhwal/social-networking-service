@@ -1,13 +1,12 @@
-package com.social.network.restcontroller;
+package com.social.network.restcontroller.content;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import com.social.network.presentation.CommonResponse;
-import com.social.network.presentation.ProfileDTO;
+import com.social.network.utils.ProfileUtils;
 import com.social.network.security.RequestContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.social.network.utils.UserPostMapper;
-import com.social.network.domain.Profile;
 import com.social.network.domain.UserPost;
-import com.social.network.presentation.ProfileImageDTO;
-import com.social.network.presentation.UserPostDTO;
+import com.social.network.presentation.UserProfileImageDTO;
+import com.social.network.presentation.UserUserPostDTO;
 import com.social.network.service.IPostService;
 import com.social.network.service.IUserService;
 import com.social.network.service.ProfileException;
-import com.social.network.restcontroller.ProfileUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -50,32 +47,32 @@ public class UserPostController
 	public static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
 	@GetMapping(value = "/{userId}/post")
-	public ResponseEntity<List<UserPostDTO>> getAllPostsByUser(@PathVariable Long userId)
+	public ResponseEntity<List<UserUserPostDTO>> getAllPostsByUser(@PathVariable Long userId)
 	{
 		List<UserPost> userPosts = postService.getAllUserPost(userId);
-		List<UserPostDTO> userPostDTOs = userPosts.stream().map(UserPostMapper::convert).toList();
-		return new ResponseEntity<>(userPostDTOs, HttpStatus.OK);
+		List<UserUserPostDTO> userUserPostDTOS = userPosts.stream().map(UserPostMapper::convert).toList();
+		return new ResponseEntity<>(userUserPostDTOS, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{userId}/post/{postId}")
-	public ResponseEntity<UserPostDTO> getPostById(@PathVariable Long userId, @PathVariable Long postId)
+	public ResponseEntity<UserUserPostDTO> getPostById(@PathVariable Long userId, @PathVariable Long postId)
 	{
 		UserPost userPost = postService.getUserPostByUserIdAndPostId(userId, postId);
 		return new ResponseEntity<>(UserPostMapper.convert(userPost), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/{userId}/post", produces = "application/json")
-	public ResponseEntity<UserPostDTO> addPostForUser(@PathVariable("userId") Long userId,
-		@RequestParam(name = "post") String post,
-		@RequestParam(name = "file", required = false) MultipartFile[] files, HttpServletRequest httpRequest) throws ProfileException, IOException
+	public ResponseEntity<UserUserPostDTO> addPostForUser(@PathVariable("userId") Long userId,
+														  @RequestParam(name = "post") String post,
+														  @RequestParam(name = "file", required = false) MultipartFile[] files, HttpServletRequest httpRequest) throws ProfileException, IOException
 	{
 		Long loggedInUserId = requestContextHolder.getContext().getUserId();
 		if(!userId.equals(loggedInUserId))
 		{
 			throw new ProfileException("You can only create post with Logged In User");
 		}
-		Set<ProfileImageDTO> images = ProfileUtils.createImages(files);
-		UserPostDTO request = UserPostDTO.builder()
+		Set<UserProfileImageDTO> images = ProfileUtils.createImages(files);
+		UserUserPostDTO request = UserUserPostDTO.builder()
 			.userId(userId)
 			.post(post)
 			.images(images)

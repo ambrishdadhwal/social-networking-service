@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "social_user_role")
 @SuperBuilder
-public class ProfileRoleE
+public class UserProfileRoleE
 {
 
 	@Id
@@ -27,7 +27,7 @@ public class ProfileRoleE
 	//before
 	@JoinColumn(name = "user_id")
 	@ManyToOne
-	private ProfileE user;
+	private UserProfileE user;
 
 	@Column
 	private String role;

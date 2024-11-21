@@ -34,7 +34,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
-public class ProfileDTO  extends RepresentationModel<ProfileDTO>
+public class UserProfileDTO extends RepresentationModel<UserProfileDTO>
 {
 
 	private Long id;
@@ -67,7 +67,7 @@ public class ProfileDTO  extends RepresentationModel<ProfileDTO>
 
 	private String profileImage;
 
-	private Set<ProfileImageDTO> profileImages;
+	private Set<UserProfileImageDTO> profileImages;
 
 	private Boolean isActive;
 

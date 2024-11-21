@@ -4,115 +4,110 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.social.network.domain.Country;
-import com.social.network.domain.Gender;
-import com.social.network.domain.ImageType;
-import com.social.network.domain.Profile;
-import com.social.network.domain.ProfileImage;
-import com.social.network.entity.ProfileE;
-import com.social.network.entity.ProfileImageE;
-import com.social.network.entity.ProfileRoleE;
+import com.social.network.entity.UserProfileE;
+import com.social.network.entity.UserProfileImageE;
+import com.social.network.entity.UserProfileRoleE;
 import com.social.network.presentation.CountryDTO;
 import com.social.network.presentation.ImageTypeDTO;
-import com.social.network.presentation.ProfileDTO;
-import com.social.network.presentation.ProfileImageDTO;
-import com.social.network.presentation.ProfileLoginDTO;
-import com.social.network.presentation.ProfileUpdateDTO;
+import com.social.network.presentation.UserProfileDTO;
+import com.social.network.presentation.UserProfileImageDTO;
+import com.social.network.presentation.UserProfileLoginDTO;
+import com.social.network.presentation.UserProfileUpdateDTO;
 
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class ProfileMapper
+public class UserProfileMapper
 {
 
-	public static ProfileImageE convert(ProfileImage n)
+	public static UserProfileImageE convert(UserProfileImage n)
 	{
 		if (n == null)
 		{
 			return null;
 		}
 
-		return ProfileImageE.builder()
+		return UserProfileImageE.builder()
 			.id(n.getId())
-			.user(ProfileMapper.convert(n.getProfile()))
+			.user(UserProfileMapper.convert(n.getProfile()))
 			.imageName(n.getImageName())
 			.imageDescription(n.getImageDescription())
-			.imageType(n.getImageType())
+			.userImageType(n.getUserImageType())
 			.image(n.getImage())
 			.createDateTime(n.getCreateDateTime())
 			.modifyDateTime(n.getModifyDateTime())
 			.build();
 	}
 
-	public static ProfileImage convert(ProfileImageDTO n)
+	public static UserProfileImage convert(UserProfileImageDTO n)
 	{
 		if (n == null)
 		{
 			return null;
 		}
 
-		return ProfileImage.builder()
+		return UserProfileImage.builder()
 			.id(n.getId())
 			.imageName(n.getImageName())
 			.imageDescription(n.getImageDescription())
 			.image(n.getImage())
-			.imageType(ImageType.valueOf(n.getImageType().toString()))
+			.userImageType(UserImageType.valueOf(n.getImageType().toString()))
 			.createDateTime(n.getCreateDate())
 			.modifyDateTime(n.getModifyDate())
 			.build();
 	}
 
-	public static ProfileImageDTO convertDTO(ProfileImage n)
+	public static UserProfileImageDTO convertDTO(UserProfileImage n)
 	{
 		if (n == null)
 		{
 			return null;
 		}
 
-		return ProfileImageDTO.builder()
+		return UserProfileImageDTO.builder()
 			.id(n.getId())
 			.imageName(n.getImageName())
 			.imageDescription(n.getImageDescription())
-			.imageType(ImageTypeDTO.valueOf(n.getImageType().toString()))
+			.imageType(ImageTypeDTO.valueOf(n.getUserImageType().toString()))
 			.image(n.getImage())
 			.createDate(n.getCreateDateTime())
 			.modifyDate(n.getModifyDateTime())
 			.build();
 	}
 
-	public static ProfileImage convert(ProfileImageE n)
+	public static UserProfileImage convert(UserProfileImageE n)
 	{
 		if (n == null)
 		{
 			return null;
 		}
 
-		return ProfileImage.builder()
+		return UserProfileImage.builder()
 			.id(n.getId())
 			.imageName(n.getImageName())
 			.imageDescription(n.getImageDescription())
-			.imageType(n.getImageType())
+			.userImageType(n.getUserImageType())
 			.image(n.getImage())
 			.createDateTime(n.getCreateDateTime())
 			.modifyDateTime(n.getModifyDateTime())
 			.build();
 	}
 
-	public static Profile convert(ProfileE from)
+	public static UserProfile convert(UserProfileE from)
 	{
 		if (from == null)
 		{
 			return null;
 		}
 
-		Set<ProfileImage> images = null;
+		Set<UserProfileImage> images = null;
 
 		if (from.getProfileImages() != null)
 		{
-			images = from.getProfileImages().stream().map(ProfileMapper::convert).collect(Collectors.toSet());
+			images = from.getProfileImages().stream().map(UserProfileMapper::convert).collect(Collectors.toSet());
 		}
 
-		return Profile.builder()
+		return UserProfile.builder()
 			.id(from.getId())
 			.firstName(from.getFirstName())
 			.lastName(from.getLastName())
@@ -121,35 +116,35 @@ public class ProfileMapper
 			.country(from.getCountry())
 			.dob(from.getDob())
 			.profileImage(from.getProfileImage())
-			.profileImages(images)
-			.roles(from.getUserRoles().stream().map(ProfileRoleE::getRole).collect(Collectors.toSet()))
+			.userProfileImages(images)
+			.roles(from.getUserRoles().stream().map(UserProfileRoleE::getRole).collect(Collectors.toSet()))
 			.createDateTime(from.getCreateDateTime())
 			.modifiedDateTime(from.getModifiedDateTime())
 			.isActive(from.getIsActive())
 			.build();
 	}
 
-	public static ProfileE convert(Profile from)
+	public static UserProfileE convert(UserProfile from)
 	{
 		if (from == null)
 		{
 			return null;
 		}
 
-		Set<ProfileRoleE> roles = new HashSet<>();
+		Set<UserProfileRoleE> roles = new HashSet<>();
 
 		from.getRoles().forEach(n -> {
-			roles.add(ProfileRoleE.builder().role(n).build());
+			roles.add(UserProfileRoleE.builder().role(n).build());
 		});
 
-		Set<ProfileImageE> images = null;
+		Set<UserProfileImageE> images = null;
 
-		if (from.getProfileImages() != null)
+		if (from.getUserProfileImages() != null)
 		{
-			images = from.getProfileImages().stream().map(ProfileMapper::convert).collect(Collectors.toSet());
+			images = from.getUserProfileImages().stream().map(UserProfileMapper::convert).collect(Collectors.toSet());
 		}
 
-		return ProfileE.builder()
+		return UserProfileE.builder()
 			.id(from.getId())
 			.firstName(from.getFirstName())
 			.lastName(from.getLastName())
@@ -167,7 +162,7 @@ public class ProfileMapper
 			.build();
 	}
 
-	public static Profile convert(ProfileDTO from)
+	public static UserProfile convert(UserProfileDTO from)
 	{
 		if (from == null)
 		{
@@ -178,14 +173,14 @@ public class ProfileMapper
 		roles.add("ADMIN");
 		roles.add("USER");
 
-		Set<ProfileImage> images = null;
+		Set<UserProfileImage> images = null;
 
 		if (from.getProfileImages() != null)
 		{
-			images = from.getProfileImages().stream().map(ProfileMapper::convert).collect(Collectors.toSet());
+			images = from.getProfileImages().stream().map(UserProfileMapper::convert).collect(Collectors.toSet());
 		}
 
-		return Profile.builder()
+		return UserProfile.builder()
 			.id(from.getId())
 			.firstName(from.getFirstName())
 			.lastName(from.getLastName())
@@ -195,24 +190,24 @@ public class ProfileMapper
 			.dob(from.getDob())
 			.roles(roles)
 			.profileImage(from.getProfileImage())
-			.profileImages(images)
+			.userProfileImages(images)
 			.createDateTime(from.getCreateDateTime())
 			.modifiedDateTime(from.getModifyDateTime())
 			.isActive(from.getIsActive())
 			.build();
 	}
 
-	public static ProfileDTO convertDTO(Profile from)
+	public static UserProfileDTO convertDTO(UserProfile from)
 	{
 		if (from == null)
 		{
 			return null;
 		}
-		Set<ProfileImageDTO> images = null;
+		Set<UserProfileImageDTO> images = null;
 
-		if (from.getProfileImages() != null)
+		if (from.getUserProfileImages() != null)
 		{
-			images = from.getProfileImages().stream().map(ProfileMapper::convertDTO).collect(Collectors.toSet());
+			images = from.getUserProfileImages().stream().map(UserProfileMapper::convertDTO).collect(Collectors.toSet());
 		}
 
 		/*return ProfileDTO.builder()
@@ -231,45 +226,45 @@ public class ProfileMapper
 			.isActive(from.getIsActive())
 			.build();*/
 		
-		ProfileDTO profileDTO =new ProfileDTO();
-		profileDTO.setId(from.getId());
-		profileDTO.setFirstName(from.getFirstName());
-		profileDTO.setLastName(from.getLastName());
-		profileDTO.setEmail(from.getEmail());
-		profileDTO.setPassword(from.getPassword());
-		profileDTO.setCountry(CountryDTO.getCountry(from.getCountry().toString()));
-		profileDTO.setDob(from.getDob());
-		profileDTO.setRoles(from.getRoles());
-		profileDTO.setProfileImage(from.getProfileImage());
-		profileDTO.setProfileImages(images);
-		profileDTO.setCreateDateTime(from.getCreateDateTime());
-		profileDTO.setModifyDateTime(from.getModifiedDateTime());
-		profileDTO.setIsActive(from.getIsActive());
+		UserProfileDTO userProfileDTO =new UserProfileDTO();
+		userProfileDTO.setId(from.getId());
+		userProfileDTO.setFirstName(from.getFirstName());
+		userProfileDTO.setLastName(from.getLastName());
+		userProfileDTO.setEmail(from.getEmail());
+		userProfileDTO.setPassword(from.getPassword());
+		userProfileDTO.setCountry(CountryDTO.getCountry(from.getCountry().toString()));
+		userProfileDTO.setDob(from.getDob());
+		userProfileDTO.setRoles(from.getRoles());
+		userProfileDTO.setProfileImage(from.getProfileImage());
+		userProfileDTO.setProfileImages(images);
+		userProfileDTO.setCreateDateTime(from.getCreateDateTime());
+		userProfileDTO.setModifyDateTime(from.getModifiedDateTime());
+		userProfileDTO.setIsActive(from.getIsActive());
 		
-		return profileDTO;
+		return userProfileDTO;
 	}
 
-	public static Profile convert(ProfileLoginDTO from)
+	public static UserProfile convert(UserProfileLoginDTO from)
 	{
 		if (from == null)
 		{
 			return null;
 		}
-		return Profile.builder()
+		return UserProfile.builder()
 			.email(from.getEmail())
 			.userName(from.getUserName())
 			.password(from.getPassword())
 			.build();
 	}
 
-	public static Profile convert(ProfileUpdateDTO from)
+	public static UserProfile convert(UserProfileUpdateDTO from)
 	{
 		if (from == null)
 		{
 			return null;
 		}
 
-		return Profile.builder()
+		return UserProfile.builder()
 			.id(from.getId())
 			.firstName(from.getFirstName())
 			.lastName(from.getLastName())

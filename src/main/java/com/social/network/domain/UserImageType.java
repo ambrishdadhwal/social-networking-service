@@ -1,6 +1,6 @@
 package com.social.network.domain;
 
-public enum ImageType
+public enum UserImageType
 {
 	POST_PIC,
 	PROFILE_PIC,
