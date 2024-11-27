@@ -3,14 +3,13 @@ package com.social.network.restcontroller.usermanagement;
 import java.util.Optional;
 
 import com.social.network.presentation.JwtResponse;
+import com.social.network.service.TokenBlacklistService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.social.network.utils.ProfileMapper;
 import com.social.network.domain.UserProfile;
@@ -24,12 +23,15 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class UserAuthController
 {
 
-	final IUserService userService;
+	private final IUserService userService;
 
-	final JwtTokenUtil jwtTokenUtil;
+	private final JwtTokenUtil jwtTokenUtil;
+
+	private final TokenBlacklistService tokenBlacklistService;
 
 	@PostMapping(value = "/login")
 	public ResponseEntity<UserProfileDTO> login(@RequestBody @Validated UserProfileLoginDTO user) throws Exception
@@ -67,8 +69,18 @@ public class UserAuthController
 	}
 
 	@PostMapping(value = "/logout")
-	public ResponseEntity<UserProfileDTO> logout(@RequestBody @Validated UserProfileLoginDTO user) throws Exception
+	public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) throws Exception
 	{
-		return new ResponseEntity<>(HttpStatus.OK);
+		String msg = "";
+		tokenBlacklistService.blacklist(token);
+		log.info("token successfully blacklisted : {}", token);
+
+		if(tokenBlacklistService.isTokenBlacklisted(token)){
+			log.info("token already blacklisted... : {}", token);
+			msg = "You are successfully logout from system !";
+		}else{
+			msg = "Something went wrong !";
+		}
+		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 }

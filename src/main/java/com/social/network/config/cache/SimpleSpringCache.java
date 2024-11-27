@@ -32,6 +32,7 @@ public class SimpleSpringCache
 		SimpleCacheManager cacheManager = new SimpleCacheManager();
 		List<Cache> caches = new ArrayList<>();
 		caches.add(new ConcurrentMapCache("personCache"));
+		caches.add(new ConcurrentMapCache("tokenBlacklist"));
 		cacheManager.setCaches(caches);
 		return cacheManager;
 	}

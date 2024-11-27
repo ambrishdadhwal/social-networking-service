@@ -70,6 +70,22 @@ spring:
       username: ${RABBITMQ_USERNAME_DEV}
       password: ${RABBITMQ_PASSWORD_DEV}
 
+# move configuration to class level
+#   kafka:
+#      bootstrap-servers: localhost:9092
+#      consumer:
+#         key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+#         value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#         properties:
+#            spring.json.trusted.packages: "*"
+#      producer:
+#         key-serializer: org.apache.kafka.common.serialization.LongSerializer
+#         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+   output:
+      ansi:
+         enabled: always
+
 cache:
    redis:
       enable: false
@@ -96,9 +112,11 @@ logging:
             eureka: OFF
       org:
          springframework:
+            kafka: info
             security:
                web:
                   FilterChainProxy: DEBUG
+
 management:
    endpoint:
       health:
@@ -146,6 +164,11 @@ rabbitmq:
    binding:
       email:
          name: email_routing_key
+
+app:
+   kafka:
+      enabled: ${KAFKA_ENABLED}
+
 
 # ---DEV
 
