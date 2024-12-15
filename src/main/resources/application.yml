@@ -88,9 +88,12 @@ spring:
 
 cache:
    redis:
-      enable: false
+      enable: ${REDIS_CACHE_ENABLED}
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
    simple:
-      enable: true
+      enable: ${SIMPLE_CACHE_ENABLED}
 chatgpt:
    api-key: ''
 eureka:
@@ -165,13 +168,7 @@ rabbitmq:
       email:
          name: email_routing_key
 
-app:
-   kafka:
-      enabled: ${KAFKA_ENABLED}
-
-
-# ---DEV
-
-
-
-# ---H2
+kafka:
+   enabled: ${KAFKA_ENABLED}
+   bootstrap:
+      servers: ${KAFAK_BOOTSTRAP_SERVERS}

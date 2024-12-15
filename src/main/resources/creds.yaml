@@ -1,0 +1,31 @@
+SPRING_PROFILE: dev
+EMAIL_TOKEN:
+EMAIL_USERNAME: ammydev321@gmail.com
+POSTGRES_USER: postgres
+POSTGRES_URL: jdbc:postgresql://localhost:5432/social
+POSTGRES_PASSWORD:
+
+MARIA_URL: jdbc:mariadb://localhost:3306/social
+MARIADB_USER: root
+MARIADB_PASSWORD:
+
+### Rabit MQ Config ####
+RABBITMQ_ENABLED: false
+RABBITMQ_USERNAME_DEV: guest
+RABBITMQ_PASSWORD_DEV:
+SPRING_DATASOURCE_URL: localhost
+
+### Redis Config ###
+REDIS_CACHE_ENABLED: true
+REDIS_HOST: localhost
+REDIS_PORT: 6379
+REDIS_PASSWORD:
+SIMPLE_CACHE_ENABLED: false
+
+#####Mongo DB###
+MONGO_DB_URI: mongodb://localhost:27017
+
+
+### KAFKA Config ###
+KAFKA_ENABLED: false
+KAFAK_BOOTSTRAP_SERVERS: localhost:9092

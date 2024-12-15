@@ -18,8 +18,10 @@ spring:
    thymeleaf:
       prefix: classpath:/templates/
       suffix: .html
-#####Redis######
-
+#####MONGO######
+   mongo:
+      uri: ${MONGO_DB_URI}
+      db: 'user_events'
 
 
 ##########Format SQL########
@@ -51,4 +53,4 @@ social:
       driverClassName: org.mariadb.jdbc.Driver
       connections: 10
       minimumIdle: 7
-      isEnabled: true
+      isEnabled: false

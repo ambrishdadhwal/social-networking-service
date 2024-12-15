@@ -1,7 +1,5 @@
 version: '3'
 services:
-
-
   social-network-service:
     build:
       context: .
@@ -14,42 +12,109 @@ services:
     environment:
       POSTGRES_URL: jdbc:postgresql://postgres:5432/social
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mohit123
+      POSTGRES_PASSWORD:
 
       MARIA_URL: jdbc:mariadb://mariadb:3306/social
       MARIADB_USER: root
-      MARIADB_PASSWORD: '*****'
+      MARIADB_PASSWORD:
+
+      MONGO_DB_URI: mongodb://mongodb:27017
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD:
     depends_on:
       postgres:
         condition: service_healthy
       mariadb:
         condition: service_healthy
       prometheus:
-        condition: service_healthy
+        condition: service_started
+      redis:
+        condition: service_started
+      mongodb:
+        condition: service_started
+      redisinsight:
+        condition: service_started
     networks:
     - social-network
 
+  redis:
+    image: redis:latest   # Pulls the latest Redis image
+    container_name: social-redis
+    ports:
+      - "6379:6379"       # Maps host port 6379 to container port 6379
+    volumes:
+      - redis_data:/data  # Persists Redis data
+    restart: always       # Automatically restarts the container if it stops
+    command: ["redis-server", "--requirepass '***'"]
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ] # Command to check Redis health
+      interval: 30s                     # Time between health checks
+      timeout: 10s                      # Timeout for each health check
+      retries: 5
+    networks:
+    - social-network
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: social-redis-insights
+    ports:
+      - "5540:5540" # RedisInsight GUI accessible at http://localhost:8001
+    volumes:
+      - redisinsight_data:/data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5540" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    networks:
+      - social-network
+
   prometheus:
     image: prom/prometheus
-    container_name: prometheus
+    container_name: social-prometheus
     volumes:
       - ./scripts/cfg/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
     healthcheck:
       test: ["CMD", "wget", "http://localhost:9090"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - social-network
 
 
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    restart: always
+#    ports:
+#      - 3003:3003
+#    volumes:
+#      - ./scripts/grafana/provisioning:/etc/grafana/provisioning
+#      - ./scripts/grafana/grafana.ini:/etc/grafana/grafana.ini
+#    env_file:
+#      - ./scripts/grafana/grafana.env
+#    healthcheck:
+#      test: [ "CMD", "grafana-cli", "plugins", "ls" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#    networks:
+#      - social-network
+
+
   postgres:
     image: postgres:latest
-    container_name: postgres_container
+    container_name: social-postgres
     environment:
       POSTGRES_DB: social
       PGUSER: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: '*****'
+      POSTGRES_PASSWORD:
     ports:
       - "5432:5432"
     healthcheck:
@@ -61,19 +126,35 @@ services:
       - social-network
 
 
+  mongodb:
+    image: mongo:latest
+    container_name: social-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping').ok" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - social-network
+
   mariadb:
     image: mariadb:latest
-    container_name: mariadb_container
+    container_name: social-mariadb
     environment:
       MARIADB_DATABASE: social
       MARIADB_USER: social
-      MARIADB_PASSWORD: '*****'
-      MARIADB_ROOT_PASSWORD: '*****'
+      MARIADB_PASSWORD:
+      MARIADB_ROOT_PASSWORD:
     ports:
       - "3306:3306"
     healthcheck:
       test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
-      interval: 10s
+      interval: 5s
       timeout: 10s
       retries: 10
     networks:
@@ -81,5 +162,10 @@ services:
 networks:
   social-network:
     driver: bridge
+
+volumes:
+  redis_data:
+  redisinsight_data:
+  mongo_data:
 
 #https://stackoverflow.com/questions/72421740/spring-micro-services-eureka-client-is-not-registering-with-eureka-server

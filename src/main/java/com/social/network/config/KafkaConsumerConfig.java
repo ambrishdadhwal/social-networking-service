@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -23,9 +24,10 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 @Slf4j
+@ConditionalOnProperty(name = "kafka.enabled", havingValue = "true")
 public class KafkaConsumerConfig {
 
-    @Value(value = "${spring.kafka.bootstrap-servers:localhost:9092}")
+    @Value(value = "${kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
     public ConsumerFactory<String, String> consumerFactory(String groupId) {
