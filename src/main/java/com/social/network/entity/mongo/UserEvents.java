@@ -1,11 +1,11 @@
-package com.social.network.entity;
+package com.social.network.entity.mongo;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 
-@Document(collection = "users")
+@Document(collection = "user_events")
 @Data
 public class UserEvents {
 

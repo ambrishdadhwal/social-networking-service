@@ -1,4 +1,4 @@
-package com.social.network.entity;
+package com.social.network.entity.postgres;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,37 +50,37 @@ public class UserProfileE
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
+	@Column(name ="first_name")
 	private String firstName;
 
-	@Column
+	@Column(name ="last_name")
 	private String lastName;
 
-	@Column
+	@Column(name ="email")
 	private String email;
 
-	@Column
+	@Column(name ="password")
 	private String password;
 
-	@Column
+	@Column(name ="profile_image")
 	private String profileImage;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "social_user_id", referencedColumnName = "id")
 	private Set<UserProfileImageE> profileImages;
 
-	@Column(name = "isActive", columnDefinition = "boolean default false")
+	@Column(name = "is_active", columnDefinition = "boolean default false")
 	private Boolean isActive;
 
-	@Column
+	@Column(name ="country")
 	@Enumerated(EnumType.STRING)
 	private Country country;
 
-	@Column
+	@Column(name ="gender")
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	@Column
+	@Column(name ="dob")
 	private LocalDate dob;
 
 	// after
@@ -90,11 +90,11 @@ public class UserProfileE
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private Set<UserProfileRoleE> userRoles;
 
-	@Column
+	@Column(name = "create_date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime createDateTime;
 
-	@Column
+	@Column(name = "modified_date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime modifiedDateTime;
 

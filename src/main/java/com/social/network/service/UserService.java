@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.social.network.entity.UserProfileE;
+import com.social.network.entity.postgres.UserProfileE;
 import com.social.network.notification.EmailDetailDTO;
 import com.social.network.presentation.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import com.social.network.utils.ProfileMapper;
 import com.social.network.utils.SocialMethodVisit;
 import com.social.network.domain.UserProfile;
-import com.social.network.repository.ProfileRepo;
-import com.social.network.repository.UserRepo;
+import com.social.network.repository.postgres.ProfileRepo;
+import com.social.network.repository.postgres.UserRepo;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;

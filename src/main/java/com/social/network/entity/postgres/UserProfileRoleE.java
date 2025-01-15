@@ -1,4 +1,4 @@
-package com.social.network.entity;
+package com.social.network.entity.postgres;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

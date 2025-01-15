@@ -1,9 +1,9 @@
-package com.social.network.repository;
+package com.social.network.repository.postgres;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.social.network.entity.UserPostE;
+import com.social.network.entity.postgres.UserPostE;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

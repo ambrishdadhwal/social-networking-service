@@ -1,4 +1,4 @@
-package com.social.network.entity;
+package com.social.network.entity.postgres;
 
 import java.time.LocalDateTime;
 
@@ -39,13 +39,13 @@ public class UserFriendE
 	@JoinColumn(name = "friend_id", referencedColumnName = "id")
 	private UserProfileE friend;
 
-	@Column
+	@Column(name ="is_friend")
 	private Boolean isFriend;
 
-	@Column
+	@Column(name = "request_accepted")
 	private Boolean requestAccepted;
 
-	@Column
+	@Column(name = "time_stamp")
 	private LocalDateTime timestamp;
 
 }

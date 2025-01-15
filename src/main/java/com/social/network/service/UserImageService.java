@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.social.network.domain.UserProfileImage;
-import com.social.network.entity.UserProfileImageE;
+import com.social.network.entity.postgres.UserProfileImageE;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.social.network.utils.ProfileMapper;
 import com.social.network.domain.UserImageType;
 import com.social.network.domain.UserProfile;
-import com.social.network.repository.ProfileImageRepo;
+import com.social.network.repository.postgres.ProfileImageRepo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.social.network.domain.UserPost;
-import com.social.network.entity.UserPostE;
 import com.social.network.presentation.CommonResponse;
 
 public interface IPostService

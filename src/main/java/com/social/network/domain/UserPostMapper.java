@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.social.network.entity.UserProfileE;
-import com.social.network.entity.UserProfileImageE;
-import com.social.network.entity.UserPostE;
+import com.social.network.entity.postgres.UserProfileE;
+import com.social.network.entity.postgres.UserProfileImageE;
+import com.social.network.entity.postgres.UserPostE;
 import com.social.network.presentation.ImageTypeDTO;
 import com.social.network.presentation.UserProfileImageDTO;
 import com.social.network.presentation.UserUserPostDTO;

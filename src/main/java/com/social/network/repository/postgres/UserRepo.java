@@ -1,9 +1,9 @@
-package com.social.network.repository;
+package com.social.network.repository.postgres;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.social.network.entity.UserProfileE;
+import com.social.network.entity.postgres.UserProfileE;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

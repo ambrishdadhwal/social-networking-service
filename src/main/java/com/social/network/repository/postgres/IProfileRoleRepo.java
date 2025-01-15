@@ -1,6 +1,6 @@
-package com.social.network.repository;
+package com.social.network.repository.postgres;
 
-import com.social.network.entity.UserProfileRoleE;
+import com.social.network.entity.postgres.UserProfileRoleE;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

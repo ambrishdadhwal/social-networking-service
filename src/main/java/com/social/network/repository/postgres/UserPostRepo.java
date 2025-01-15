@@ -1,4 +1,4 @@
-package com.social.network.repository;
+package com.social.network.repository.postgres;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.social.network.entity.UserPostE;
+import com.social.network.entity.postgres.UserPostE;
 
 @Transactional
 public interface UserPostRepo extends CrudRepository<UserPostE, Long>

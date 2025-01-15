@@ -2,8 +2,8 @@ package com.social.network.config;
 
 import com.social.network.domain.Country;
 import com.social.network.domain.Gender;
-import com.social.network.entity.UserProfileE;
-import com.social.network.repository.UserRepo;
+import com.social.network.entity.postgres.UserProfileE;
+import com.social.network.repository.postgres.UserRepo;
 import io.micrometer.core.aop.TimedAspect;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,6 @@ public class AppConfig {
     @Bean
     CommandLineRunner commandLineRunner(UserRepo userRepo) {
         return args -> {
-            log.info("Admin User is Created..");
-
             List<UserProfileE> persons = IntStream.iterate(1, n -> n + 1).limit(50)
                     .mapToObj(k -> UserProfileE.builder()
                             .id(Long.valueOf(k))
@@ -45,8 +43,8 @@ public class AppConfig {
                             .createDateTime(LocalDateTime.now())
                             .modifiedDateTime(LocalDateTime.now())
                             .build()).collect(Collectors.toList());
-
             userRepo.saveAll(persons);
+            log.info("Admin Users Created..");
         };
     }
 }

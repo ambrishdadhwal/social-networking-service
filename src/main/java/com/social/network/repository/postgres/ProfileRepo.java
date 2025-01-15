@@ -1,4 +1,4 @@
-package com.social.network.repository;
+package com.social.network.repository.postgres;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

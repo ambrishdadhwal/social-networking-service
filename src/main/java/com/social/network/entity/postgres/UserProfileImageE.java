@@ -1,4 +1,4 @@
-package com.social.network.entity;
+package com.social.network.entity.postgres;
 
 import java.time.LocalDateTime;
 
@@ -25,35 +25,35 @@ public class UserProfileImageE
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "social_user_id")
 	private UserProfileE user;
 
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "social_post_id")
 	private UserPostE post;
 
-	@Column
+	@Column(name = "image_name")
 	private String imageName;
 
-	@Column
+	@Column(name = "is_active")
 	private Boolean isActive;
 
-	@Column
+	@Column(name = "image_description")
 	private String imageDescription;
 
-	@Column
+	@Column(name = "user_image_type")
 	@Enumerated(EnumType.STRING)
 	private UserImageType userImageType;
 
 	@Column
 	private byte[] image;
 
-	@Column
+	@Column(name = "create_date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime createDateTime;
 
-	@Column
+	@Column(name = "modify_date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime modifyDateTime;
 }

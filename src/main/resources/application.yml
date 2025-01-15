@@ -54,10 +54,11 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
 
-   defer-datasource-initialization: true
-   liquibase:
-      change-log: classpath:db/changelog/master.yaml
-      enabled: true
+   ###### this will only if you are initializing datasource with spring jpa properties#####
+   #defer-datasource-initialization: true
+   #liquibase:
+   #   change-log: classpath:db/changelog/master.yaml
+   #   enabled: true
    sql:
       init:
          mode: always
@@ -86,6 +87,10 @@ spring:
       ansi:
          enabled: always
 
+liquibase-changelogs:
+   primary:
+      liquibase:
+         change-log: classpath:db/changelog/master.yaml
 cache:
    redis:
       enable: ${REDIS_CACHE_ENABLED}
@@ -119,6 +124,7 @@ logging:
             security:
                web:
                   FilterChainProxy: DEBUG
+      liquibase: debug
 
 management:
    endpoint:

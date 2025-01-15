@@ -1,13 +1,8 @@
 databaseChangeLog:
   - changeSet:
-      id: 1730110438457-1
+      id: 1736842210934-1
       author: ambrish
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: social_user
       changes:
         - createTable:
             columns:
@@ -55,14 +50,9 @@ databaseChangeLog:
                   type: DATETIME
             tableName: social_user
   - changeSet:
-      id: 1730110438457-2
+      id: 1736842210934-2
       author: ambrish
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: social_user_friend
       changes:
         - createTable:
             columns:
@@ -91,14 +81,9 @@ databaseChangeLog:
                   type: DATETIME
             tableName: social_user_friend
   - changeSet:
-      id: 1730110438457-3
+      id: 1736842210934-3
       author: ambrish
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: social_user_image
       changes:
         - createTable:
             columns:
@@ -120,10 +105,13 @@ databaseChangeLog:
                   name: image_name
                   type: VARCHAR(255)
               - column:
+                  name: is_active
+                  type: BOOLEAN
+              - column:
                   name: image_description
                   type: VARCHAR(255)
               - column:
-                  name: image_type
+                  name: user_image_type
                   type: VARCHAR(255)
               - column:
                   name: image
@@ -136,14 +124,9 @@ databaseChangeLog:
                   type: DATETIME
             tableName: social_user_image
   - changeSet:
-      id: 1730110438457-4
+      id: 1736842210934-4
       author: ambrish
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: social_user_post
       changes:
         - createTable:
             columns:
@@ -169,14 +152,9 @@ databaseChangeLog:
                   type: DATETIME
             tableName: social_user_post
   - changeSet:
-      id: 1730110438457-5
+      id: 1736842210934-5
       author: ambrish
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      preConditions:
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: social_user_role
       changes:
         - createTable:
             columns:
@@ -195,10 +173,79 @@ databaseChangeLog:
                   name: role
                   type: VARCHAR(255)
             tableName: social_user_role
-
   - changeSet:
-      id: 1234456
-      author: ambrish
+      id: 1736842210934-6
+      author: ambri
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
-        - sql:
-            ALTER TABLE social_user_image ADD COLUMN IF NOT EXISTS is_active boolean;
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_0a778204b21e3677e25023f31
+            tableName: social_user
+  - changeSet:
+      id: 1736842210934-7
+      author: ambri
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: friend_id
+            baseTableName: social_user_friend
+            constraintName: FK_SOCIAL_USER_FRIEND_ON_FRIEND
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1736842210934-8
+      author: ambri
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: social_user_friend
+            constraintName: FK_SOCIAL_USER_FRIEND_ON_USER
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1736842210934-9
+      author: ambri
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: social_post_id
+            baseTableName: social_user_image
+            constraintName: FK_SOCIAL_USER_IMAGE_ON_SOCIAL_POST
+            referencedColumnNames: id
+            referencedTableName: social_user_post
+  - changeSet:
+      id: 1736842210934-10
+      author: ambri
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: social_user_id
+            baseTableName: social_user_image
+            constraintName: FK_SOCIAL_USER_IMAGE_ON_SOCIAL_USER
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1736842210934-11
+      author: ambrish
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_a_id
+            baseTableName: social_user_post
+            constraintName: FK_SOCIAL_USER_POST_ON_USER_A
+            referencedColumnNames: id
+            referencedTableName: social_user
+  - changeSet:
+      id: 1736842210934-12
+      author: ambri
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: social_user_role
+            constraintName: FK_SOCIAL_USER_ROLE_ON_USER
+            referencedColumnNames: id
+            referencedTableName: social_user
+

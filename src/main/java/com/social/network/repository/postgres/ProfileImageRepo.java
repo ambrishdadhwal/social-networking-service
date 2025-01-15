@@ -1,6 +1,6 @@
-package com.social.network.repository;
+package com.social.network.repository.postgres;
 
-import com.social.network.entity.UserProfileImageE;
+import com.social.network.entity.postgres.UserProfileImageE;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

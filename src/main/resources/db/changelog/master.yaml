@@ -1,5 +1,3 @@
 databaseChangeLog:
   - include:
       file: classpath:db/changelog/changelog-tables.yaml
-  - include:
-      file: classpath:db/changelog/foreign-keys.yaml

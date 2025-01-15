@@ -1,4 +1,4 @@
-package com.social.network.config.datasource;
+/*package com.social.network.config.datasource;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -115,14 +115,6 @@ public class MultiDataSourceConfig
 					config.setPassword(dbConn.getPassword());
 					break;
 				}
-				case MARIA:
-				{
-					config.setDriverClassName(dbConn.getDriverClassName());
-					config.setJdbcUrl(dbConn.getUrl());
-					config.setUsername(dbConn.getUsername());
-					config.setPassword(dbConn.getPassword());
-					break;
-				}
 				default:
 					break;
 			}
@@ -131,3 +123,4 @@ public class MultiDataSourceConfig
 
 	}
 }
+*/

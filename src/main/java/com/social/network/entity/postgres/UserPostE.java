@@ -1,4 +1,4 @@
-package com.social.network.entity;
+package com.social.network.entity.postgres;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -32,7 +32,7 @@ public class UserPostE
 	@JoinColumn(name = "user_a_id")
 	private UserProfileE user;
 
-	@Column
+	@Column(name = "post_data")
 	private String postData;
 
 	/*
@@ -42,11 +42,11 @@ public class UserPostE
 	@JoinColumn(name = "social_post_id", referencedColumnName = "id")
 	private Set<UserProfileImageE> images;
 
-	@Column
+	@Column(name = "created_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime createdTime;
 
-	@Column
+	@Column(name = "modified_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime modifiedTime;
 

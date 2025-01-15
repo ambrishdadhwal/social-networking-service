@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
-import com.social.network.entity.UserFriendE;
-import com.social.network.repository.UserFriendRepo;
-import com.social.network.repository.UserRepo;
+import com.social.network.entity.postgres.UserFriendE;
+import com.social.network.repository.postgres.UserFriendRepo;
+import com.social.network.repository.postgres.UserRepo;
 
 import lombok.RequiredArgsConstructor;
 

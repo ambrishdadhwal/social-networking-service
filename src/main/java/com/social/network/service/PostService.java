@@ -3,7 +3,7 @@ package com.social.network.service;
 		import java.util.List;
 		import java.util.Optional;
 
-		import com.social.network.entity.UserProfileE;
+		import com.social.network.entity.postgres.UserProfileE;
 		import com.social.network.presentation.CommonResponse;
 		import com.social.network.security.RequestContextHolder;
 		import org.springframework.http.HttpStatus;
@@ -11,10 +11,10 @@ package com.social.network.service;
 
 		import com.social.network.utils.UserPostMapper;
 		import com.social.network.domain.UserPost;
-		import com.social.network.entity.UserPostE;
-		import com.social.network.repository.ProfileImageRepo;
-		import com.social.network.repository.UserPostRepo;
-		import com.social.network.repository.UserRepo;
+		import com.social.network.entity.postgres.UserPostE;
+		import com.social.network.repository.postgres.ProfileImageRepo;
+		import com.social.network.repository.postgres.UserPostRepo;
+		import com.social.network.repository.postgres.UserRepo;
 
 		import lombok.RequiredArgsConstructor;
 		import lombok.extern.slf4j.Slf4j;
