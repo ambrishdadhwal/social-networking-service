@@ -49,6 +49,7 @@ databaseChangeLog:
                   name: modified_date_time
                   type: DATETIME
             tableName: social_user
+            ifNotExists: true
   - changeSet:
       id: 1736842210934-2
       author: ambrish
@@ -80,6 +81,7 @@ databaseChangeLog:
                   name: timestamp
                   type: DATETIME
             tableName: social_user_friend
+            ifNotExists: true
   - changeSet:
       id: 1736842210934-3
       author: ambrish
@@ -123,6 +125,7 @@ databaseChangeLog:
                   name: modify_date_time
                   type: DATETIME
             tableName: social_user_image
+            ifNotExists: true
   - changeSet:
       id: 1736842210934-4
       author: ambrish
@@ -151,6 +154,7 @@ databaseChangeLog:
                   name: modified_time
                   type: DATETIME
             tableName: social_user_post
+            ifNotExists: true
   - changeSet:
       id: 1736842210934-5
       author: ambrish
@@ -173,6 +177,7 @@ databaseChangeLog:
                   name: role
                   type: VARCHAR(255)
             tableName: social_user_role
+            ifNotExists: true
   - changeSet:
       id: 1736842210934-6
       author: ambri
