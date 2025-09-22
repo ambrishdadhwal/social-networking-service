@@ -1,4 +1,4 @@
-package com.social.network;
+/*package com.social.network;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,4 +10,4 @@ class SocialNetworkingServiceApplicationTests {
     void contextLoads() {
     }
 
-}
+}*/

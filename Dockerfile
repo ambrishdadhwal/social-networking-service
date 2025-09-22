@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM eclipse-temurin:21-jdk-jammy
 LABEL MAINTAINER="Ambrish"
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar

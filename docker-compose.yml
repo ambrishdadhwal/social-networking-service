@@ -10,23 +10,18 @@ services:
     ports:
     - 9091:9091
     environment:
-      POSTGRES_URL: jdbc:postgresql://postgres:5432/social
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/social?options=-c%20TimeZone=Asia/Kolkata
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
-
-      MARIA_URL: jdbc:mariadb://mariadb:3306/social
-      MARIADB_USER: root
-      MARIADB_PASSWORD:
-
+      POSTGRES_PASSWORD: 
+      JAVA_TOOL_OPTIONS: -Duser.timezone=Asia/Kolkata
+      TZ: Asia/Kolkata        # optional, for OS-level logs
       MONGO_DB_URI: mongodb://mongodb:27017
-
+      MONGO_ENABLED: true
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD:
     depends_on:
       postgres:
-        condition: service_healthy
-      mariadb:
         condition: service_healthy
       prometheus:
         condition: service_started
@@ -114,7 +109,9 @@ services:
       POSTGRES_DB: social
       PGUSER: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: 
+      TZ: Asia/Kolkata                 # container OS timezone (optional, useful for logs)
+    command: ["postgres", "-c", "timezone=Asia/Kolkata"]
     ports:
       - "5432:5432"
     healthcheck:
@@ -122,9 +119,10 @@ services:
       interval: 10s
       timeout: 10s
       retries: 10
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - social-network
-
 
   mongodb:
     image: mongo:latest
@@ -142,23 +140,6 @@ services:
     networks:
       - social-network
 
-  mariadb:
-    image: mariadb:latest
-    container_name: social-mariadb
-    environment:
-      MARIADB_DATABASE: social
-      MARIADB_USER: social
-      MARIADB_PASSWORD:
-      MARIADB_ROOT_PASSWORD:
-    ports:
-      - "3306:3306"
-    healthcheck:
-      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
-      interval: 5s
-      timeout: 10s
-      retries: 10
-    networks:
-      - social-network
 networks:
   social-network:
     driver: bridge
@@ -167,5 +148,6 @@ volumes:
   redis_data:
   redisinsight_data:
   mongo_data:
+  postgres-data:
 
 #https://stackoverflow.com/questions/72421740/spring-micro-services-eureka-client-is-not-registering-with-eureka-server

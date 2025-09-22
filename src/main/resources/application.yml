@@ -7,6 +7,8 @@ server:
    servlet:
       contextPath: /social-networking-service
 spring:
+   profiles:
+      active: ${SPRING_PROFILE}
    application:
       name: social-networking-service
    banner:
@@ -38,8 +40,6 @@ spring:
    mvc:
       problemdetails:
          enabled: true
-   profiles:
-      active: ${SPRING_PROFILE}
    security:
       user:
          name: user
@@ -50,7 +50,7 @@ spring:
          max-request-size: 50MB
    thymeleaf:
       cache: false
-      enabled: 'true '
+      enabled: 'true'
       prefix: classpath:/templates/
       suffix: .html
 
