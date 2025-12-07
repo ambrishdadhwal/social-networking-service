@@ -1,31 +1,25 @@
 package com.social.network.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.social.network.domain.UserProfile;
 import com.social.network.entity.postgres.UserProfileE;
-import com.social.network.notification.EmailDetailDTO;
 import com.social.network.presentation.CommonResponse;
+import com.social.network.repository.postgres.ProfileRepo;
+import com.social.network.repository.postgres.UserRepo;
+import com.social.network.utils.ProfileMapper;
+import com.social.network.utils.SocialMethodVisit;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.social.network.utils.ProfileMapper;
-import com.social.network.utils.SocialMethodVisit;
-import com.social.network.domain.UserProfile;
-import com.social.network.repository.postgres.ProfileRepo;
-import com.social.network.repository.postgres.UserRepo;
-
-import jakarta.validation.constraints.NotEmpty;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("profileService")
 @RequiredArgsConstructor
@@ -37,18 +31,7 @@ public class UserService implements IUserService
 
 	private final ProfileRepo profileRepo;
 
-	private final RabbitTemplate rabbitTemplate;
-
 	private final IPostService postService;
-
-	@Value("${rabbitmq.exchange.email.name}")
-	private String emailExchange;
-
-	@Value("${rabbitmq.binding.email.name}")
-	private String emailRoutingKey;
-
-	@Value("${spring.rabbitmq.enabled:false}")
-	private String isRabbitMQEnabled;
 
 	@SocialMethodVisit
 	public Optional<UserProfile> saveUser(UserProfile user) throws Exception
@@ -67,7 +50,6 @@ public class UserService implements IUserService
 		{
 			Integer token = Integer.valueOf((int) (Math.random() * 10000));
 			UserProfileE savedUser = userRepo.save(newUser);
-			sendEmail(user, token, "Email Verification");
 			return Optional.of(ProfileMapper.convert(savedUser));
 		}
 		catch (Exception e)
@@ -183,21 +165,6 @@ public class UserService implements IUserService
 	public List<UserProfile> getUsersSearchbyName(String name)
 	{
 		return userRepo.findByFirstNameContaining(name).stream().map(ProfileMapper::convert).collect(Collectors.toList());
-	}
-
-	private void sendEmail(UserProfile user, Integer token, String subject) {
-		if(isRabbitMQEnabled!=null && isRabbitMQEnabled.equals("true")){
-			Map<String, Object> mailData = Map.of("token", token, "fullName", user.getFirstName().concat(user.getLastName()));
-			rabbitTemplate.convertAndSend(emailExchange, emailRoutingKey, EmailDetailDTO.builder()
-					.to(user.getEmail())
-					.subject(subject)
-					.dynamicValue(mailData)
-					.templateName("verification")
-					.build());
-		}
-		else{
-			log.info("RabbitMQ push currently disabled.");
-		}
 	}
 
 }

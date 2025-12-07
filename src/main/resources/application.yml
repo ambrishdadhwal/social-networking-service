@@ -64,13 +64,6 @@ spring:
          mode: always
          schema-locations: classpath:/sql/schema.sql
 
-   rabbitmq:
-      enabled: ${RABBITMQ_ENABLED}
-      host: localhost
-      port: 5672
-      username: ${RABBITMQ_USERNAME_DEV}
-      password: ${RABBITMQ_PASSWORD_DEV}
-
 # move configuration to class level
 #   kafka:
 #      bootstrap-servers: localhost:9092
@@ -151,28 +144,12 @@ management:
          enabled: false
       mail:
          enabled: false
-      rabbit:
-         enabled: false
 security:
    basic:
       authorize-mode: NONE
       enabled: true
 springdoc:
    show-actuator: false
-
-
-
-
-rabbitmq:
-   queue:
-      email:
-         name: email_queue
-   exchange:
-      email:
-         name: email_exchange
-   binding:
-      email:
-         name: email_routing_key
 
 kafka:
    enabled: ${KAFKA_ENABLED}
